@@ -11,10 +11,12 @@ const Folders: FC = () => {
     const state = useAppState();
     const actions = useActions();
 
-    const folderName  = useRef<HTMLInputElement>(null);
+    const folderName = useRef<HTMLInputElement>(null);
 
     const [title, setTitle] = useState('');
     const [colors, setColors] = useState('gray');
+    const [folderDelete, setFolderDelete] = useState(false);
+    const [folderEdit, setFolderEdit] = useState(false);
     const colorMap = getColorMap();
 
     useEffect(() => {
@@ -128,12 +130,12 @@ const Folders: FC = () => {
         save(state);
     };
 
-    const bgClass = 0 !== state.selected.length && state.settings.highlight_folders ? 'bg-yellow-50 ring-2 ring-yellow-200' : '';
+    const bgClass = 0 !== state.selected.length && state.settings.highlight_folders ? 'bg-yellow-50 ring-2 ring-yellow-200 -mx-2 px-2' : '';
 
     return (
         <div className="relative select-none">
             <Loading />
-            <ul className={`${bgClass} px-2 py-3 my-3 text-sm leading-[24px] text-gray-700`}>
+            <ul className={`${bgClass} py-3 my-3 text-sm leading-[24px]`}>
                 {
                     state.folders.map((folder, index) => {
                         const margin = 1 === folder.id ? 'mb-6' : 'mb-2';
@@ -143,10 +145,23 @@ const Folders: FC = () => {
                         let icon = 1 === folder.id ? 'star' : 'folder';
 
                         if (state.folder === folder.id) {
-                            icon = 1 === folder.id ? 'star-filled' : 'folder-open';
+                            const isFavorites = 1 === folder.id;
+                            icon = isFavorites ? 'star-filled' : 'folder-open';
+
+                            if (! isFavorites && folderDelete) {
+                                icon = 'folder-remove';
+                            }
+
+                            if (! isFavorites && folderEdit) {
+                                icon = 'pencil';
+                            }
                         }
 
                         if (0 !== state.selected.length) {
+                            icon = 'folder-add';
+                        }
+
+                        if (folder.id === state.editFolder) {
                             icon = 'pencil';
                         }
 
@@ -165,7 +180,7 @@ const Folders: FC = () => {
                 }
             </ul>
 
-            <div className="text-left text-sm px-2 leading-[24px]">
+            <div className="text-left text-sm leading-[24px]">
                 {
                     (state.addFolder || ! [0, 1].includes(state.editFolder)) && (
                         <div>
@@ -205,14 +220,14 @@ const Folders: FC = () => {
                     {
                         (! [0, 1].includes(state.folder) && [0, 1].includes(state.editFolder)) && (
                             <>
-                                <span className="text-gray-500 rounded-full flex items-center cursor-pointer" onClick={editFolder}>
+                                <span className="text-gray-500 rounded-full flex items-center cursor-pointer" onClick={editFolder} onMouseEnter={() => setFolderEdit(true)} onMouseLeave={() => setFolderEdit(false)}>
                                     <Icon type="edit" classes="w-6 h-6" />
                                     <span className="ml-1">Edit Folder</span>
                                 </span>
 
                                 <span className="text-gray-500 rounded-full flex items-center cursor-pointer" onClick={() => deleteFolder()}>
                                     <Icon type="minus" classes="w-6 h-6" />
-                                    <span className="ml-1">Delete Folder</span>
+                                    <span className="ml-1" onMouseEnter={() => setFolderDelete(true)} onMouseLeave={() => setFolderDelete(false)}>Delete Folder</span>
                                 </span>
                             </>
                         )

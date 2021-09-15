@@ -54,6 +54,11 @@ export const getSettingsMap = () => {
             type: 'toggle',
         },
         {
+            name: 'hide_gdpr',
+            label: 'Hide GDPR Info',
+            type: 'toggle',
+        },
+        {
             name: 'per_page',
             label: 'Gists Per Page',
             type: 'select',
@@ -158,5 +163,24 @@ export const save = (state: Context['state']) => {
         method: 'POST',
         headers: requestHeaders,
         body: JSON.stringify(data)
+    });
+}
+
+export const deleteUser = () => {
+    const token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+
+    if (! token) {
+        return;
+    }
+
+    const requestHeaders: HeadersInit = new Headers();
+
+    requestHeaders.set('X-CSRF-TOKEN', token);
+
+    fetch('/userdata', {
+        method: 'DELETE',
+        headers: requestHeaders,
+    }).then(() => {
+        location.reload();
     });
 }

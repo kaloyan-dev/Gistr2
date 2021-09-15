@@ -44,12 +44,14 @@ var __importStar = this && this.__importStar || function (mod) {
   return result;
 };
 
-var __spreadArray = this && this.__spreadArray || function (to, from) {
-  for (var i = 0, il = from.length, j = to.length; i < il; i++, j++) {
-    to[j] = from[i];
+var __spreadArray = this && this.__spreadArray || function (to, from, pack) {
+  if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+    if (ar || !(i in from)) {
+      if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+      ar[i] = from[i];
+    }
   }
-
-  return to;
+  return to.concat(ar || Array.prototype.slice.call(from));
 };
 
 var __importDefault = this && this.__importDefault || function (mod) {
@@ -74,24 +76,26 @@ var Filter_1 = __importDefault(__webpack_require__(/*! ./Filter */ "./resources/
 
 var Folders_1 = __importDefault(__webpack_require__(/*! ./Folders */ "./resources/js/components/Folders.tsx"));
 
+var SettingsList_1 = __importDefault(__webpack_require__(/*! ./SettingsList */ "./resources/js/components/SettingsList.tsx"));
+
+var GDPR_1 = __importDefault(__webpack_require__(/*! ./GDPR */ "./resources/js/components/GDPR.tsx"));
+
 var GistList_1 = __importDefault(__webpack_require__(/*! ./GistList */ "./resources/js/components/GistList.tsx"));
 
 var Icon_1 = __importDefault(__webpack_require__(/*! ./Icon */ "./resources/js/components/Icon.tsx"));
-
-var SettingsList_1 = __importDefault(__webpack_require__(/*! ./SettingsList */ "./resources/js/components/SettingsList.tsx"));
 
 var Pagination_1 = __importDefault(__webpack_require__(/*! ./Pagination */ "./resources/js/components/Pagination.tsx"));
 
 var utils_1 = __webpack_require__(/*! ../helpers/utils */ "./resources/js/helpers/utils.tsx");
 
 var App = function App() {
-  var _a = react_1.useState(1),
+  var _a = (0, react_1.useState)(1),
       page = _a[0],
       setPage = _a[1];
 
-  var state = overmind_1.useAppState();
-  var actions = overmind_1.useActions();
-  react_1.useEffect(function () {
+  var state = (0, overmind_1.useAppState)();
+  var actions = (0, overmind_1.useActions)();
+  (0, react_1.useEffect)(function () {
     document.onkeydown = function (event) {
       if ('Escape' === event.code) {
         actions.clearSelected();
@@ -106,9 +110,9 @@ var App = function App() {
           return;
         }
 
-        var selected_1 = __spreadArray([], state.selected);
+        var selected_1 = __spreadArray([], state.selected, true);
 
-        var gistsOnPage = __spreadArray([], state.gists.filtered).filter(function (gist) {
+        var gistsOnPage = __spreadArray([], state.gists.filtered, true).filter(function (gist) {
           return gist.page === state.viewPage;
         });
 
@@ -149,7 +153,7 @@ var App = function App() {
             if (state.settings.use_cache && data && 'number' === typeof state.settings.per_page) {
               actions.setSourceGists(data);
               actions.setFilteredGists(data);
-              utils_1.paginateGists(state.settings.per_page, state, actions);
+              (0, utils_1.paginateGists)(state.settings.per_page, state, actions);
               actions.setLoaded(true);
             } else {
               fetchGists(page);
@@ -164,18 +168,18 @@ var App = function App() {
     fetch("/gists?page=" + page + "&per_page=" + state.settings.per_page).then(function (response) {
       return response.json();
     }).then(function (data) {
-      var currentGists = __spreadArray([], state.gists.source);
+      var currentGists = __spreadArray([], state.gists.source, true);
 
       actions.setSourceGists(currentGists.concat(data));
 
       if ('number' === typeof state.settings.per_page) {
-        utils_1.paginateGists(state.settings.per_page, state, actions);
+        (0, utils_1.paginateGists)(state.settings.per_page, state, actions);
       }
 
       if (data.length < state.settings.per_page && 'number' === typeof state.settings.per_page) {
-        actions.setFilteredGists(__spreadArray([], state.gists.source));
-        utils_1.paginateGists(state.settings.per_page, state, actions);
-        utils_1.saveCache(state);
+        actions.setFilteredGists(__spreadArray([], state.gists.source, true));
+        (0, utils_1.paginateGists)(state.settings.per_page, state, actions);
+        (0, utils_1.saveCache)(state);
         actions.setLoaded(true);
         return;
       }
@@ -195,7 +199,7 @@ var App = function App() {
     actions.setFolder(0);
 
     if ('number' === typeof state.settings.per_page) {
-      utils_1.paginateGists(state.settings.per_page, state, actions);
+      (0, utils_1.paginateGists)(state.settings.per_page, state, actions);
     }
   };
 
@@ -204,16 +208,16 @@ var App = function App() {
   var reverseClass = true === state.settings.pagination_top ? 'flex-col-reverse' : '';
   return react_1["default"].createElement("div", {
     className: invertedClass + " bg-gray-100 h-full"
-  }, react_1["default"].createElement("div", {
+  }, react_1["default"].createElement(GDPR_1["default"], null), react_1["default"].createElement("div", {
     className: "h-full md:pl-[260px]"
   }, react_1["default"].createElement("div", {
     className: "p-4"
   }, react_1["default"].createElement("div", {
-    className: "w-[300px] items-stretch hidden md:flex"
+    className: "w-[300px] items-stretch hidden md:flex text-gray-700"
   }, react_1["default"].createElement("div", {
-    className: "w-[260px] fixed top-0 left-0 bottom-0 bg-white p-4 shadow"
+    className: "w-[260px] fixed top-0 left-0 bottom-0 bg-white p-6 shadow"
   }, react_1["default"].createElement(UserProfile_1["default"], null), react_1["default"].createElement("div", {
-    className: "flex px-2 pt-6 text-sm leading-[24px] text-gray-900"
+    className: "flex pt-6 text-sm leading-[24px] text-gray-900"
   }, react_1["default"].createElement(Icon_1["default"], {
     type: "code",
     classes: "w-6 h-6"
@@ -299,18 +303,18 @@ var hooks_1 = __webpack_require__(/*! ../helpers/hooks */ "./resources/js/helper
 var utils_1 = __webpack_require__(/*! ../helpers/utils */ "./resources/js/helpers/utils.tsx");
 
 var Filter = function Filter() {
-  var state = overmind_1.useAppState();
+  var state = (0, overmind_1.useAppState)();
   var filter = state.filter,
       settings = state.settings;
-  var actions = overmind_1.useActions();
+  var actions = (0, overmind_1.useActions)();
   var padding = settings.compact_mode ? 'p-2' : 'p-4';
 
-  var _a = react_1.useState(''),
+  var _a = (0, react_1.useState)(''),
       inputFilter = _a[0],
       setInputFilter = _a[1];
 
-  var debouncedFilter = hooks_1.useDebounce(inputFilter, 200);
-  react_1.useEffect(function () {
+  var debouncedFilter = (0, hooks_1.useDebounce)(inputFilter, 200);
+  (0, react_1.useEffect)(function () {
     var filterTerm = inputFilter.trim();
 
     if (filterTerm === filter) {
@@ -320,7 +324,7 @@ var Filter = function Filter() {
     actions.setFilter(filterTerm);
 
     if ('number' === typeof settings.per_page) {
-      utils_1.paginateGists(settings.per_page, state, actions);
+      (0, utils_1.paginateGists)(settings.per_page, state, actions);
     }
   }, [debouncedFilter]);
   return react_1["default"].createElement("div", {
@@ -384,12 +388,14 @@ var __importStar = this && this.__importStar || function (mod) {
   return result;
 };
 
-var __spreadArray = this && this.__spreadArray || function (to, from) {
-  for (var i = 0, il = from.length, j = to.length; i < il; i++, j++) {
-    to[j] = from[i];
+var __spreadArray = this && this.__spreadArray || function (to, from, pack) {
+  if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+    if (ar || !(i in from)) {
+      if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+      ar[i] = from[i];
+    }
   }
-
-  return to;
+  return to.concat(ar || Array.prototype.slice.call(from));
 };
 
 var __importDefault = this && this.__importDefault || function (mod) {
@@ -413,20 +419,28 @@ var Loading_1 = __importDefault(__webpack_require__(/*! ./Loading */ "./resource
 var utils_1 = __webpack_require__(/*! ../helpers/utils */ "./resources/js/helpers/utils.tsx");
 
 var Folders = function Folders() {
-  var state = overmind_1.useAppState();
-  var actions = overmind_1.useActions();
-  var folderName = react_1.useRef(null);
+  var state = (0, overmind_1.useAppState)();
+  var actions = (0, overmind_1.useActions)();
+  var folderName = (0, react_1.useRef)(null);
 
-  var _a = react_1.useState(''),
+  var _a = (0, react_1.useState)(''),
       title = _a[0],
       setTitle = _a[1];
 
-  var _b = react_1.useState('gray'),
+  var _b = (0, react_1.useState)('gray'),
       colors = _b[0],
       setColors = _b[1];
 
-  var colorMap = utils_1.getColorMap();
-  react_1.useEffect(function () {
+  var _c = (0, react_1.useState)(false),
+      folderDelete = _c[0],
+      setFolderDelete = _c[1];
+
+  var _d = (0, react_1.useState)(false),
+      folderEdit = _d[0],
+      setFolderEdit = _d[1];
+
+  var colorMap = (0, utils_1.getColorMap)();
+  (0, react_1.useEffect)(function () {
     if (!state.addFolder && 0 === state.editFolder) {
       return;
     }
@@ -443,7 +457,7 @@ var Folders = function Folders() {
     }
 
     if (folderName.current) {
-      var folders = __spreadArray([], state.folders);
+      var folders = __spreadArray([], state.folders, true);
 
       if (state.addFolder) {
         var maxID_1 = 2;
@@ -478,14 +492,14 @@ var Folders = function Folders() {
         actions.setEditFolder(0);
       }
 
-      utils_1.save(state);
+      (0, utils_1.save)(state);
     }
   };
 
   var editFolder = function editFolder() {
     actions.setEditFolder(state.folder);
 
-    var folders = __spreadArray([], state.folders);
+    var folders = __spreadArray([], state.folders, true);
 
     var currentIndex = folders.findIndex(function (folder) {
       return folder.id === state.editFolder;
@@ -496,7 +510,7 @@ var Folders = function Folders() {
   };
 
   var deleteFolder = function deleteFolder() {
-    var folders = __spreadArray([], state.folders);
+    var folders = __spreadArray([], state.folders, true);
 
     var current = folders.findIndex(function (folder) {
       return folder.id === state.folder;
@@ -509,7 +523,7 @@ var Folders = function Folders() {
 
     folders.splice(current, 1);
     actions.setFolders(folders);
-    utils_1.save(state);
+    (0, utils_1.save)(state);
   };
 
   var handleFolder = function handleFolder(folder) {
@@ -518,7 +532,7 @@ var Folders = function Folders() {
 
     if (0 !== state.selected.length) {
       actions.addOrRemoveFromFolder(folder.id);
-      utils_1.save(state);
+      (0, utils_1.save)(state);
       return;
     } // Toggle active folder
 
@@ -527,17 +541,17 @@ var Folders = function Folders() {
     actions.setFolder(selectedFolder);
 
     if ('number' === typeof state.settings.per_page) {
-      utils_1.paginateGists(state.settings.per_page, state, actions);
+      (0, utils_1.paginateGists)(state.settings.per_page, state, actions);
     }
 
-    utils_1.save(state);
+    (0, utils_1.save)(state);
   };
 
-  var bgClass = 0 !== state.selected.length && state.settings.highlight_folders ? 'bg-yellow-50 ring-2 ring-yellow-200' : '';
+  var bgClass = 0 !== state.selected.length && state.settings.highlight_folders ? 'bg-yellow-50 ring-2 ring-yellow-200 -mx-2 px-2' : '';
   return react_1["default"].createElement("div", {
     className: "relative select-none"
   }, react_1["default"].createElement(Loading_1["default"], null), react_1["default"].createElement("ul", {
-    className: bgClass + " px-2 py-3 my-3 text-sm leading-[24px] text-gray-700"
+    className: bgClass + " py-3 my-3 text-sm leading-[24px]"
   }, state.folders.map(function (folder, index) {
     var margin = 1 === folder.id ? 'mb-6' : 'mb-2';
     var active = folder.id === state.folder ? 'font-bold' : '';
@@ -545,10 +559,23 @@ var Folders = function Folders() {
     var icon = 1 === folder.id ? 'star' : 'folder';
 
     if (state.folder === folder.id) {
-      icon = 1 === folder.id ? 'star-filled' : 'folder-open';
+      var isFavorites = 1 === folder.id;
+      icon = isFavorites ? 'star-filled' : 'folder-open';
+
+      if (!isFavorites && folderDelete) {
+        icon = 'folder-remove';
+      }
+
+      if (!isFavorites && folderEdit) {
+        icon = 'pencil';
+      }
     }
 
     if (0 !== state.selected.length) {
+      icon = 'folder-add';
+    }
+
+    if (folder.id === state.editFolder) {
       icon = 'pencil';
     }
 
@@ -569,7 +596,7 @@ var Folders = function Folders() {
       className: "text-xs leading-[24px]"
     }, folder.gists.length)));
   })), react_1["default"].createElement("div", {
-    className: "text-left text-sm px-2 leading-[24px]"
+    className: "text-left text-sm leading-[24px]"
   }, (state.addFolder || ![0, 1].includes(state.editFolder)) && react_1["default"].createElement("div", null, react_1["default"].createElement("div", {
     className: "flex"
   }, react_1["default"].createElement("input", {
@@ -609,7 +636,13 @@ var Folders = function Folders() {
     className: "ml-1"
   }, "Add Folder")), ![0, 1].includes(state.folder) && [0, 1].includes(state.editFolder) && react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement("span", {
     className: "text-gray-500 rounded-full flex items-center cursor-pointer",
-    onClick: editFolder
+    onClick: editFolder,
+    onMouseEnter: function onMouseEnter() {
+      return setFolderEdit(true);
+    },
+    onMouseLeave: function onMouseLeave() {
+      return setFolderEdit(false);
+    }
   }, react_1["default"].createElement(Icon_1["default"], {
     type: "edit",
     classes: "w-6 h-6"
@@ -624,11 +657,105 @@ var Folders = function Folders() {
     type: "minus",
     classes: "w-6 h-6"
   }), react_1["default"].createElement("span", {
-    className: "ml-1"
+    className: "ml-1",
+    onMouseEnter: function onMouseEnter() {
+      return setFolderDelete(true);
+    },
+    onMouseLeave: function onMouseLeave() {
+      return setFolderDelete(false);
+    }
   }, "Delete Folder"))))));
 };
 
 exports.default = Folders;
+
+/***/ }),
+
+/***/ "./resources/js/components/GDPR.tsx":
+/*!******************************************!*\
+  !*** ./resources/js/components/GDPR.tsx ***!
+  \******************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var Icon_1 = __importDefault(__webpack_require__(/*! ./Icon */ "./resources/js/components/Icon.tsx"));
+
+var overmind_1 = __webpack_require__(/*! ../overmind */ "./resources/js/overmind/index.ts");
+
+var utils_1 = __webpack_require__(/*! ../helpers/utils */ "./resources/js/helpers/utils.tsx");
+
+var GDPR = function GDPR() {
+  var state = (0, overmind_1.useAppState)();
+  var actions = (0, overmind_1.useActions)();
+
+  var agree = function agree() {
+    actions.updateSettings({
+      hide_gdpr: true
+    });
+    (0, utils_1.save)(state);
+  };
+
+  var deletePersonalInfo = function deletePersonalInfo() {
+    if (!confirm('Are you sure ? This action cannot be undone.')) {
+      return;
+    }
+
+    (0, utils_1.deleteUser)();
+  };
+
+  if (state.settings.hide_gdpr) {
+    return null;
+  }
+
+  return react_1["default"].createElement("div", {
+    className: "fixed top-0 left-0 z-[10000] w-full h-full lg:text-xs bg-[#00000050]"
+  }, react_1["default"].createElement("div", {
+    className: "absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] max-w-[90%] p-4 bg-white shadow rounded-sm"
+  }, react_1["default"].createElement("h2", {
+    className: "flex justify-center leading-[24px]"
+  }, react_1["default"].createElement(Icon_1["default"], {
+    type: "shield",
+    classes: "w-6 h-6"
+  }), react_1["default"].createElement("span", {
+    className: "ml-2"
+  }, "GDPR")), react_1["default"].createElement("div", {
+    className: "mt-4"
+  }, react_1["default"].createElement("p", null, "This website uses ", react_1["default"].createElement("a", {
+    className: "text-blue-500 underline",
+    href: "https://en.wikipedia.org/wiki/HTTP_cookie",
+    target: "_blank"
+  }, "cookies"), " just like the majority (if not all) of the websites you use on a daily basis."), react_1["default"].createElement("p", {
+    className: "mt-4"
+  }, "The personal information that is stored in the database includes your GitHub username, your real name and email (based on what you've provided in your GitHub profile) and a list of your Gists' IDs."), react_1["default"].createElement("p", {
+    className: "mt-4 text-blue-500"
+  }, "You can immediately delete all your personal information from the database by clicking the button bellow."), react_1["default"].createElement("p", {
+    className: "text-red-500"
+  }, "WARNING: You can't undo this action. Once you delete your information you will be logged out. You can recreate your profile by logging in with GitHub again but all your previous settings and folders will be lost."), react_1["default"].createElement("div", {
+    className: "flex justify-between mt-4"
+  }, react_1["default"].createElement("button", {
+    className: "text-red-700 underline py-2 px-4 w-[50%]",
+    onClick: deletePersonalInfo
+  }, "Delete Personal Information"), react_1["default"].createElement("button", {
+    className: "text-white py-2 px-4 bg-green-500 w-[50%]",
+    onClick: agree
+  }, "Agree")))));
+};
+
+exports.default = GDPR;
 
 /***/ }),
 
@@ -675,12 +802,14 @@ var __importStar = this && this.__importStar || function (mod) {
   return result;
 };
 
-var __spreadArray = this && this.__spreadArray || function (to, from) {
-  for (var i = 0, il = from.length, j = to.length; i < il; i++, j++) {
-    to[j] = from[i];
+var __spreadArray = this && this.__spreadArray || function (to, from, pack) {
+  if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+    if (ar || !(i in from)) {
+      if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+      ar[i] = from[i];
+    }
   }
-
-  return to;
+  return to.concat(ar || Array.prototype.slice.call(from));
 };
 
 var __importDefault = this && this.__importDefault || function (mod) {
@@ -708,26 +837,26 @@ var userdata_1 = __webpack_require__(/*! ../helpers/userdata */ "./resources/js/
 var utils_1 = __webpack_require__(/*! ../helpers/utils */ "./resources/js/helpers/utils.tsx");
 
 var GistList = function GistList() {
-  var state = overmind_1.useAppState();
+  var state = (0, overmind_1.useAppState)();
 
-  var _a = overmind_1.useAppState(),
+  var _a = (0, overmind_1.useAppState)(),
       gists = _a.gists,
       settings = _a.settings,
       viewPage = _a.viewPage;
 
-  var actions = overmind_1.useActions();
+  var actions = (0, overmind_1.useActions)();
   var baseURL = 'https://gist.github.com';
 
-  var _b = react_1.useState([]),
+  var _b = (0, react_1.useState)([]),
       open = _b[0],
       setOpen = _b[1];
 
-  var _c = react_1.useState(false),
+  var _c = (0, react_1.useState)(false),
       copied = _c[0],
       setCopied = _c[1];
 
   var toggleOpen = function toggleOpen(id) {
-    var editOpen = __spreadArray([], open);
+    var editOpen = __spreadArray([], open, true);
 
     if (!editOpen.includes(id)) {
       editOpen.push(id);
@@ -766,7 +895,7 @@ var GistList = function GistList() {
       className: "flex items-center"
     }, gist.name, state.settings.folder_labels && state.folders.map(function (folder, index) {
       if (folder.gists.includes(gist.id)) {
-        var colorMap = utils_1.getColorMap();
+        var colorMap = (0, utils_1.getColorMap)();
         var bgColor = colorMap[folder.color][1];
         return react_1["default"].createElement("span", {
           key: index,
@@ -785,7 +914,7 @@ var GistList = function GistList() {
 
   var toggleFavorite = function toggleFavorite(id) {
     actions.toggleFavorite(id);
-    utils_1.save(state);
+    (0, utils_1.save)(state);
   };
 
   return react_1["default"].createElement("div", {
@@ -1119,6 +1248,19 @@ var Icon = function Icon(_a) {
           strokeWidth: 2,
           d: "M5 13l4 4L19 7"
         }));
+
+      case 'shield':
+        return react_1["default"].createElement("svg", {
+          className: classes,
+          fill: "none",
+          viewBox: "0 0 24 24",
+          stroke: "currentColor"
+        }, react_1["default"].createElement("path", {
+          strokeLinecap: "round",
+          strokeLinejoin: "round",
+          strokeWidth: 2,
+          d: "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+        }));
     }
   };
 
@@ -1155,7 +1297,7 @@ var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/r
 var overmind_1 = __webpack_require__(/*! ../overmind */ "./resources/js/overmind/index.ts");
 
 var Loading = function Loading() {
-  var state = overmind_1.useAppState();
+  var state = (0, overmind_1.useAppState)();
   return react_1["default"].createElement(react_1["default"].Fragment, null, !state.loaded && react_1["default"].createElement("div", {
     className: "absolute top-0 left-0 w-full h-full bg-white animate-pulse cursor-wait opacity-90 z-10"
   }));
@@ -1189,9 +1331,9 @@ var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/r
 var overmind_1 = __webpack_require__(/*! ../overmind */ "./resources/js/overmind/index.ts");
 
 var Pagination = function Pagination() {
-  var actions = overmind_1.useActions();
+  var actions = (0, overmind_1.useActions)();
 
-  var _a = overmind_1.useAppState(),
+  var _a = (0, overmind_1.useAppState)(),
       maxPage = _a.maxPage,
       viewPage = _a.viewPage,
       settings = _a.settings;
@@ -1247,9 +1389,9 @@ var Loading_1 = __importDefault(__webpack_require__(/*! ./Loading */ "./resource
 var utils_1 = __webpack_require__(/*! ../helpers/utils */ "./resources/js/helpers/utils.tsx");
 
 var SettingsList = function SettingsList() {
-  var state = overmind_1.useAppState();
-  var actions = overmind_1.useActions();
-  var settingsMap = utils_1.getSettingsMap();
+  var state = (0, overmind_1.useAppState)();
+  var actions = (0, overmind_1.useActions)();
+  var settingsMap = (0, utils_1.getSettingsMap)();
 
   var updatePerPage = function updatePerPage(per_page) {
     actions.updateSettings({
@@ -1257,19 +1399,19 @@ var SettingsList = function SettingsList() {
     });
 
     if ('number' === typeof per_page) {
-      utils_1.paginateGists(per_page, state, actions);
+      (0, utils_1.paginateGists)(per_page, state, actions);
     }
 
-    utils_1.save(state);
+    (0, utils_1.save)(state);
   };
 
   var toggleSetting = function toggleSetting(setting) {
     actions.toggleSetting(setting);
-    utils_1.save(state);
+    (0, utils_1.save)(state);
   };
 
   return react_1["default"].createElement("div", {
-    className: "text-sm text-gray-700 mt-10 relative"
+    className: "text-sm mt-10 relative"
   }, react_1["default"].createElement(Loading_1["default"], null), react_1["default"].createElement("h2", {
     className: "flex justify-center leading-[24px]"
   }, react_1["default"].createElement(Icon_1["default"], {
@@ -1278,7 +1420,7 @@ var SettingsList = function SettingsList() {
   }), react_1["default"].createElement("span", {
     className: "ml-2"
   }, "Settings")), react_1["default"].createElement("ul", {
-    className: "mt-4 p-2"
+    className: "mt-4 py-2"
   }, settingsMap.map(function (setting, id) {
     var _a;
 
@@ -1339,7 +1481,7 @@ var userdata_1 = __webpack_require__(/*! ../helpers/userdata */ "./resources/js/
 var overmind_1 = __webpack_require__(/*! ../overmind */ "./resources/js/overmind/index.ts");
 
 var UserProfile = function UserProfile() {
-  var state = overmind_1.useAppState();
+  var state = (0, overmind_1.useAppState)();
   return react_1["default"].createElement("div", {
     className: "text-center"
   }, react_1["default"].createElement("a", {
@@ -1351,7 +1493,7 @@ var UserProfile = function UserProfile() {
     src: state.settings.hide_user_info ? "" + userdata_1.anonymous : "" + userdata_1.avatar,
     alt: ""
   })), react_1["default"].createElement("p", {
-    className: "text-gray-700 text-sm leading-none"
+    className: "text-gray-700 text-sm leading-tight"
   }, state.settings.hide_user_info ? 'Anonymous' : userdata_1.name), react_1["default"].createElement("a", {
     href: "/logout",
     className: "text-red-500 text-xs"
@@ -1379,11 +1521,11 @@ exports.useDebounce = void 0;
 var react_1 = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 function useDebounce(value, delay) {
-  var _a = react_1.useState(value),
+  var _a = (0, react_1.useState)(value),
       debouncedValue = _a[0],
       setDebouncedValue = _a[1];
 
-  react_1.useEffect(function () {
+  (0, react_1.useEffect)(function () {
     var handler = setTimeout(function () {
       setDebouncedValue(value);
     }, delay);
@@ -1433,18 +1575,20 @@ exports.anonymous = anonymous;
 "use strict";
 
 
-var __spreadArray = this && this.__spreadArray || function (to, from) {
-  for (var i = 0, il = from.length, j = to.length; i < il; i++, j++) {
-    to[j] = from[i];
+var __spreadArray = this && this.__spreadArray || function (to, from, pack) {
+  if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+    if (ar || !(i in from)) {
+      if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+      ar[i] = from[i];
+    }
   }
-
-  return to;
+  return to.concat(ar || Array.prototype.slice.call(from));
 };
 
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.save = exports.saveCache = exports.paginateGists = exports.getSettingsMap = exports.getColorMap = void 0;
+exports.deleteUser = exports.save = exports.saveCache = exports.paginateGists = exports.getSettingsMap = exports.getColorMap = void 0;
 
 var getColorMap = function getColorMap() {
   var colorMap = {
@@ -1492,6 +1636,10 @@ var getSettingsMap = function getSettingsMap() {
     label: 'Use Cache',
     type: 'toggle'
   }, {
+    name: 'hide_gdpr',
+    label: 'Hide GDPR Info',
+    type: 'toggle'
+  }, {
     name: 'per_page',
     label: 'Gists Per Page',
     type: 'select',
@@ -1507,12 +1655,12 @@ var paginateGists = function paginateGists(per_page, state, actions) {
   var counter = 1;
   var page = 1;
 
-  var filteredGists = __spreadArray([], state.gists.source);
+  var filteredGists = __spreadArray([], state.gists.source, true);
 
   actions.setMaxPage(1);
 
   if (0 !== state.folder) {
-    var filteredGistsByFolder = __spreadArray([], filteredGists);
+    var filteredGistsByFolder = __spreadArray([], filteredGists, true);
 
     var currentFolder_1 = state.folders.find(function (folderObject) {
       return folderObject.id === state.folder;
@@ -1526,7 +1674,7 @@ var paginateGists = function paginateGists(per_page, state, actions) {
   }
 
   if ('' !== state.filter) {
-    var filteredGistsByName = __spreadArray([], filteredGists);
+    var filteredGistsByName = __spreadArray([], filteredGists, true);
 
     filteredGists = filteredGistsByName.filter(function (gist) {
       return gist.name.match(new RegExp(state.filter, 'gi'));
@@ -1604,6 +1752,27 @@ var save = function save(state) {
 
 exports.save = save;
 
+var deleteUser = function deleteUser() {
+  var _a;
+
+  var token = (_a = document.querySelector('meta[name="csrf-token"]')) === null || _a === void 0 ? void 0 : _a.getAttribute('content');
+
+  if (!token) {
+    return;
+  }
+
+  var requestHeaders = new Headers();
+  requestHeaders.set('X-CSRF-TOKEN', token);
+  fetch('/userdata', {
+    method: 'DELETE',
+    headers: requestHeaders
+  }).then(function () {
+    location.reload();
+  });
+};
+
+exports.deleteUser = deleteUser;
+
 /***/ }),
 
 /***/ "./resources/js/index.tsx":
@@ -1637,7 +1806,7 @@ var overmind_2 = __webpack_require__(/*! ./overmind */ "./resources/js/overmind/
 
 var App_1 = __importDefault(__webpack_require__(/*! ./components/App */ "./resources/js/components/App.tsx"));
 
-var overmind = overmind_1.createOvermind(overmind_2.config);
+var overmind = (0, overmind_1.createOvermind)(overmind_2.config);
 react_dom_1["default"].render(react_1["default"].createElement(react_1["default"].StrictMode, null, react_1["default"].createElement(overmind_react_1.Provider, {
   value: overmind
 }, react_1["default"].createElement(App_1["default"], null))), document.getElementById('app'));
@@ -1669,12 +1838,14 @@ var __assign = this && this.__assign || function () {
   return __assign.apply(this, arguments);
 };
 
-var __spreadArray = this && this.__spreadArray || function (to, from) {
-  for (var i = 0, il = from.length, j = to.length; i < il; i++, j++) {
-    to[j] = from[i];
+var __spreadArray = this && this.__spreadArray || function (to, from, pack) {
+  if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+    if (ar || !(i in from)) {
+      if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+      ar[i] = from[i];
+    }
   }
-
-  return to;
+  return to.concat(ar || Array.prototype.slice.call(from));
 };
 
 Object.defineProperty(exports, "__esModule", ({
@@ -1765,7 +1936,7 @@ exports.setFolder = setFolder;
 
 var setFolders = function setFolders(_a, folders) {
   var state = _a.state;
-  state.folders = __spreadArray([], folders);
+  state.folders = __spreadArray([], folders, true);
 };
 
 exports.setFolders = setFolders;
@@ -1773,13 +1944,13 @@ exports.setFolders = setFolders;
 var addOrRemoveFromFolder = function addOrRemoveFromFolder(_a, folderID) {
   var state = _a.state;
 
-  var folders = __spreadArray([], state.folders);
+  var folders = __spreadArray([], state.folders, true);
 
   var selectedFolder = folders.findIndex(function (folderObject) {
     return folderObject.id === folderID;
   });
 
-  var selected = __spreadArray([], state.selected);
+  var selected = __spreadArray([], state.selected, true);
 
   selected.map(function (id) {
     if ('undefined' !== typeof selectedFolder) {
@@ -1791,7 +1962,7 @@ var addOrRemoveFromFolder = function addOrRemoveFromFolder(_a, folderID) {
       }
     }
   });
-  state.folders = __spreadArray([], folders);
+  state.folders = __spreadArray([], folders, true);
 };
 
 exports.addOrRemoveFromFolder = addOrRemoveFromFolder;
@@ -1799,7 +1970,7 @@ exports.addOrRemoveFromFolder = addOrRemoveFromFolder;
 var toggleFavorite = function toggleFavorite(_a, id) {
   var state = _a.state;
 
-  var favorites = __spreadArray([], state.folders[0].gists);
+  var favorites = __spreadArray([], state.folders[0].gists, true);
 
   if (favorites.includes(id)) {
     var index = favorites.indexOf(id);
@@ -1840,7 +2011,7 @@ var toggleSelected = function toggleSelected(_a, _b) {
       event = _b.event;
   var shift = event.shiftKey;
 
-  var selected = __spreadArray([], state.selected);
+  var selected = __spreadArray([], state.selected, true);
 
   if (selected.includes(id)) {
     var index = selected.indexOf(id);
@@ -1851,7 +2022,7 @@ var toggleSelected = function toggleSelected(_a, _b) {
 
 
   if (shift && selected.length) {
-    var gists = __spreadArray([], state.gists.filtered);
+    var gists = __spreadArray([], state.gists.filtered, true);
 
     var gistKeys = gists.map(function (gist) {
       return gist.id;
@@ -1959,8 +2130,8 @@ exports.config = {
   state: state_1.state,
   actions: actions
 };
-exports.useAppState = overmind_react_1.createStateHook();
-exports.useActions = overmind_react_1.createActionsHook();
+exports.useAppState = (0, overmind_react_1.createStateHook)();
+exports.useActions = (0, overmind_react_1.createActionsHook)();
 
 /***/ }),
 
@@ -1995,6 +2166,7 @@ exports.state = {
     'highlight_folders': true,
     'folder_labels': true,
     'use_cache': true,
+    'hide_gdpr': true,
     'per_page': 15
   },
   loaded: false,

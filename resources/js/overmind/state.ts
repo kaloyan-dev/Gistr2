@@ -38,6 +38,7 @@ export const state: State = {
         'highlight_folders': true,
         'folder_labels': true,
         'use_cache': true,
+        'hide_gdpr': true,
         'per_page': 15,
     },
     loaded: false,

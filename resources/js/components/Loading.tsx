@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { useAppState } from '../overmind';
 
-const Loading = () => {
+const Loading: FC = () => {
     const state = useAppState();
 
     return (

@@ -71,6 +71,16 @@ class GistsController extends Controller
         }
     }
 
+    public function deleteUserdata(Request $request) {
+        $user = Auth::user();
+
+        if (! $user) {
+            return 0;
+        }
+
+        $user->delete();
+    }
+
     public function loadCache() {
         $user = Auth::user();
 

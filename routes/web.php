@@ -19,6 +19,7 @@ Route::get('/', [GistsController::class, 'index']);
 Route::get('/gists', [GistsController::class, 'gists']);
 Route::get('/userdata', [GistsController::class, 'loadUserdata']);
 Route::post('/userdata', [GistsController::class, 'saveUserdata']);
+Route::delete('/userdata', [GistsController::class, 'deleteUserdata']);
 Route::get('/cache', [GistsController::class, 'loadCache']);
 Route::post('/cache', [GistsController::class, 'saveCache']);
 Route::get('logout',  [GistsController::class, 'logout']);

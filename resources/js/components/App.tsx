@@ -1,17 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { useAppState, useActions } from '../overmind';
 
 import Loading from './Loading';
 import UserProfile from './UserProfile';
 import Filter from './Filter';
 import Folders from './Folders';
+import SettingsList from './SettingsList';
+import GDPR from './GDPR';
 import GistList from './GistList';
 import Icon from './Icon';
-import SettingsList from './SettingsList';
 import Pagination from './Pagination';
 import { paginateGists, saveCache } from '../helpers/utils';
 
-const App = () => {
+const App: FC = () => {
     const [page, setPage] = useState<number>(1);
 
     const state = useAppState();
@@ -127,13 +128,14 @@ const App = () => {
 
     return (
         <div className={`${invertedClass} bg-gray-100 h-full`}>
+            <GDPR />
             <div className="h-full md:pl-[260px]">
                 <div className="p-4">
-                    <div className="w-[300px] items-stretch hidden md:flex">
-                        <div className="w-[260px] fixed top-0 left-0 bottom-0 bg-white p-4 shadow">
+                    <div className="w-[300px] items-stretch hidden md:flex text-gray-700">
+                        <div className="w-[260px] fixed top-0 left-0 bottom-0 bg-white p-6 shadow">
                             <UserProfile />
 
-                            <div className="flex px-2 pt-6 text-sm leading-[24px] text-gray-900">
+                            <div className="flex pt-6 text-sm leading-[24px] text-gray-900">
                                 <Icon type="code" classes="w-6 h-6" />
                                 <div className={`${boldClass} ml-2 w-full flex justify-between cursor-pointer`} onClick={() => resetFolder()}>
                                     <p>All Gists</p>

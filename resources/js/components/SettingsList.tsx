@@ -28,13 +28,13 @@ const SettingsList: FC = () => {
     }
 
     return (
-        <div className="text-sm text-gray-700 mt-10 relative">
+        <div className="text-sm mt-10 relative">
             <Loading />
             <h2 className="flex justify-center leading-[24px]">
                 <Icon type="cog" classes="w-6 h-6" />
                 <span className="ml-2">Settings</span>
             </h2>
-            <ul className="mt-4 p-2">
+            <ul className="mt-4 py-2">
                 {
                     settingsMap.map((setting, id) => {
                         const color = state.settings[setting.name] ? 'bg-blue-500': 'bg-gray-700';
