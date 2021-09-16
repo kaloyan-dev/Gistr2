@@ -10,6 +10,7 @@ type State = {
     maxPage: number;
     viewPage: number;
     filter: string;
+    filterFocus: boolean;
     selected: string[];
     lastSelected: string;
     gists: {
@@ -33,18 +34,20 @@ export const state: State = {
     settings: {
         'inverted_colors': false,
         'compact_mode': false,
-        'pagination_top': false,
         'hide_user_info': false,
+        'pagination_top': false,
+        'sidebar_right': false,
         'highlight_folders': true,
         'folder_labels': true,
         'use_cache': true,
-        'hide_gdpr': true,
+        'hide_gdpr': false,
         'per_page': 15,
     },
     loaded: false,
     maxPage: 1,
     viewPage: 1,
     filter: '',
+    filterFocus: false,
     selected: [],
     lastSelected: '',
     gists: {

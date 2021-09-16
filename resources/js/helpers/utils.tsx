@@ -29,13 +29,18 @@ export const getSettingsMap = () => {
             type: 'toggle',
         },
         {
+            name: 'hide_user_info',
+            label: 'Hide User Info',
+            type: 'toggle',
+        },
+        {
             name: 'pagination_top',
             label: 'Pagination On Top',
             type: 'toggle',
         },
         {
-            name: 'hide_user_info',
-            label: 'Hide User Info',
+            name: 'sidebar_right',
+            label: 'Sidebar On The Right',
             type: 'toggle',
         },
         {

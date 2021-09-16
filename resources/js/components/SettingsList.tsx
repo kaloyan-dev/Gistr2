@@ -37,8 +37,9 @@ const SettingsList: FC = () => {
             <ul className="mt-4 py-2">
                 {
                     settingsMap.map((setting, id) => {
-                        const color = state.settings[setting.name] ? 'bg-blue-500': 'bg-gray-700';
-                        const left  = state.settings[setting.name] ? 'left-[18px]': 'left-[2px]';
+                        const color      = state.settings[setting.name] ? 'bg-blue-500': 'bg-gray-700';
+                        const left       = state.settings[setting.name] ? 'left-[18px]': 'left-[2px]';
+                        const transition = state.loaded ? 'transition-all' : '';
 
                         return (
                             <li key={id} className="flex justify-between mt-2 first:mt-0">
@@ -46,7 +47,7 @@ const SettingsList: FC = () => {
                                 {
                                     'toggle' === setting.type && (
                                         <div className={`${color} relative w-[32px] h-[16px] mt-[2px] rounded-xl cursor-pointer`} onClick={() => toggleSetting(setting.name)}>
-                                            <span className={`${left} absolute top-[2px] w-[12px] h-[12px] bg-white rounded-full transition-all`}></span>
+                                            <span className={`${left} ${transition} absolute top-[2px] w-[12px] h-[12px] bg-white rounded-full`}></span>
                                         </div>
                                     )
                                 }

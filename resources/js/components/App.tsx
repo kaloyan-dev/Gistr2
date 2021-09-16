@@ -26,7 +26,7 @@ const App: FC = () => {
                 actions.setEditFolder(0);
             }
 
-            if ('KeyA' === event.code && (event.ctrlKey || event.metaKey) && state.gists.filtered.length) {
+            if ('KeyA' === event.code && (event.ctrlKey || event.metaKey) && state.gists.filtered.length && ! state.filterFocus) {
                 event.preventDefault();
 
                 if (! state.loaded) {
@@ -44,7 +44,9 @@ const App: FC = () => {
                 }
 
                 gistsOnPage.map((gist) => {
-                    selected.push(gist.id);
+                    if (! selected.includes(gist.id)) {
+                        selected.push(gist.id);
+                    }
                 });
 
                 actions.setSelected(selected);
@@ -58,7 +60,7 @@ const App: FC = () => {
                         const data = text && text.length ? JSON.parse(text) : '';
 
                         if (data) {
-                            actions.setSettings(data.settings);
+                            actions.setSettings({...state.settings, ...data.settings});
                             actions.setFolders(data.folders);
                         }
                     })
@@ -122,30 +124,30 @@ const App: FC = () => {
         }
     };
 
-    const invertedClass = true === state.settings.inverted_colors ? 'dark': '';
+    const invertedClass = state.settings.inverted_colors ? 'dark': '';
     const boldClass     = 0 === state.folder ? 'font-bold' : '';
-    const reverseClass  = true === state.settings.pagination_top ? 'flex-col-reverse' : '';
+    const reverseClass  = state.settings.pagination_top ? 'flex-col-reverse' : '';
+    const wrapperClass  = state.settings.sidebar_right ? 'md:pr-[260px]' : 'md:pl-[260px]';
+    const sidebarClass  = state.settings.sidebar_right ? 'right-0' : 'left-0';
 
     return (
         <div className={`${invertedClass} bg-gray-100 h-full`}>
-            <GDPR />
-            <div className="h-full md:pl-[260px]">
+            { state.loaded && <GDPR />}
+            <div className={`h-full ${wrapperClass}`}>
                 <div className="p-4">
-                    <div className="w-[300px] items-stretch hidden md:flex text-gray-700">
-                        <div className="w-[260px] fixed top-0 left-0 bottom-0 bg-white p-6 shadow">
-                            <UserProfile />
+                    <div className={`w-[260px] bottom-0 bg-white p-6 shadow hidden md:block fixed top-0 ${sidebarClass}`}>
+                        <UserProfile />
 
-                            <div className="flex pt-6 text-sm leading-[24px] text-gray-900">
-                                <Icon type="code" classes="w-6 h-6" />
-                                <div className={`${boldClass} ml-2 w-full flex justify-between cursor-pointer`} onClick={() => resetFolder()}>
-                                    <p>All Gists</p>
-                                    <span className="text-xs leading-[24px]">{state.gists.source.length}</span>
-                                </div>
+                        <div className="flex pt-6 text-sm leading-[24px] text-gray-900">
+                            <Icon type="code" classes="w-6 h-6" />
+                            <div className={`${boldClass} ml-2 w-full flex justify-between cursor-pointer`} onClick={() => resetFolder()}>
+                                <p>All Gists</p>
+                                <span className="text-xs leading-[24px]">{state.gists.source.length}</span>
                             </div>
-
-                            <Folders />
-                            <SettingsList />
                         </div>
+
+                        <Folders />
+                        <SettingsList />
                     </div>
 
                     <Filter />

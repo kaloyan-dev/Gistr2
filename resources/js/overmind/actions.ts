@@ -91,6 +91,10 @@ export const setFilter = ({ state }: Context, filter: string) => {
     state.filter = filter;
 }
 
+export const setFilterFocus = ({ state }: Context, focus: boolean) => {
+    state.filterFocus = focus;
+}
+
 export const clearSelected = ({ state }: Context) => {
     state.selected = [];
 }

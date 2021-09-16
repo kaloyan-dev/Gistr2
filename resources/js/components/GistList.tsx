@@ -61,7 +61,7 @@ const GistList: FC = () => {
                             const bgColor  = colorMap[folder.color][1];
 
                             return (
-                                <span key={index} className={`${bgColor} ml-2 text-white bg-gray-500 leading-none py-1 px-2 rounded-md text-xs`}>{folder.title}</span>
+                                <span key={index} className={`${bgColor} ml-2 text-white leading-none py-1 px-2 rounded-md text-xs`}>{folder.title}</span>
                             );
                         }
                     })

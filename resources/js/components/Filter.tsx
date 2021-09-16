@@ -33,7 +33,14 @@ const Filter: FC = () => {
         <div className="bg-white border-b shadow relative">
             <Loading />
             <form method="get">
-                <input type="text" placeholder="Filter by name" className={`${padding} text-gray-600 outline-none w-full transition-all`} onChange={(event) => setInputFilter(event.target.value)} />
+                <input
+                    type="text"
+                    placeholder="Filter by name"
+                    className={`${padding} text-gray-600 outline-none w-full transition-all`}
+                    onChange={(event) => setInputFilter(event.target.value)}
+                    onFocus={() => actions.setFilterFocus(true)}
+                    onBlur={() => actions.setFilterFocus(false)}
+                />
             </form>
         </div>
     );
