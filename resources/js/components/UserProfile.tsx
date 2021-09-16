@@ -12,7 +12,7 @@ const UserProfile: FC = () => {
             </a>
 
             <p className="text-gray-700 text-sm leading-tight">{state.settings.hide_user_info ? 'Anonymous' : name}</p>
-            <a href="/logout" className="text-red-500 text-xs">Logout</a>
+            <a href="logout" className="text-red-500 text-xs">Logout</a>
         </div>
     );
 };

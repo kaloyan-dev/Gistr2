@@ -138,7 +138,7 @@ export const saveCache = (state: Context['state']) => {
     requestHeaders.set('X-CSRF-TOKEN', token);
     requestHeaders.set('Content-Type', 'application/json');
 
-    fetch('/cache', {
+    fetch('cache', {
         method: 'POST',
         headers: requestHeaders,
         body: JSON.stringify(data)
@@ -164,7 +164,7 @@ export const save = (state: Context['state']) => {
     requestHeaders.set('X-CSRF-TOKEN', token);
     requestHeaders.set('Content-Type', 'application/json');
 
-    fetch('/userdata', {
+    fetch('userdata', {
         method: 'POST',
         headers: requestHeaders,
         body: JSON.stringify(data)
@@ -182,7 +182,7 @@ export const deleteUser = () => {
 
     requestHeaders.set('X-CSRF-TOKEN', token);
 
-    fetch('/userdata', {
+    fetch('userdata', {
         method: 'DELETE',
         headers: requestHeaders,
     }).then(() => {

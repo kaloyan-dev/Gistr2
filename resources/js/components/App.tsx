@@ -53,7 +53,7 @@ const App: FC = () => {
             }
         }
 
-        fetch('/userdata')
+        fetch('userdata')
             .then(response => {
                 response.text()
                     .then(text => {
@@ -65,7 +65,7 @@ const App: FC = () => {
                         }
                     })
                     .then(() => {
-                        fetch('/cache')
+                        fetch('cache')
                             .then(response => {
                                 response.text()
                                     .then(text => {
@@ -87,7 +87,7 @@ const App: FC = () => {
     }, []);
 
     const fetchGists = (page: number) => {
-        fetch(`/gists?page=${page}&per_page=${state.settings.per_page}`)
+        fetch(`gists?page=${page}&per_page=${state.settings.per_page}`)
             .then(response => response.json())
             .then(data => {
                 const currentGists = [...state.gists.source];
