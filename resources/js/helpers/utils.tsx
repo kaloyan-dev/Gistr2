@@ -122,6 +122,30 @@ export const paginateGists = (per_page: number, state: Context['state'], actions
     actions.setFilteredGists(currentGists);
 };
 
+export const clearFoldersCache = (state: Context['state'], actions: Context['actions']) => {
+    const gists              = state.gists.filtered.map((gist) => gist.id);
+    const folders            = state.folders;
+    const filtered: Folder[] = [];
+    let saveNeeded = false;
+
+    folders.map((folder) => {
+        const filteredFolder = {...folder};
+
+        filteredFolder.gists = filteredFolder.gists.filter((id) => gists.includes(id));
+
+        filtered.push(filteredFolder);
+
+        if (filteredFolder.gists.length !== folder.gists.length) {
+            saveNeeded = true;
+        }
+    });
+
+    if (saveNeeded) {
+        actions.setFolders(filtered);
+        save(state);
+    }
+}
+
 export const saveCache = (state: Context['state']) => {
     const token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
 

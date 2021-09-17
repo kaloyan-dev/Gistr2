@@ -28,7 +28,7 @@ const SettingsList: FC = () => {
     }
 
     return (
-        <div className="text-sm mt-10 relative">
+        <div className="text-sm mt-6 xl:mt-10 relative">
             <Loading />
             <h2 className="flex justify-center leading-[24px]">
                 <Icon type="cog" classes="w-6 h-6" />
@@ -42,7 +42,7 @@ const SettingsList: FC = () => {
                         const transition = state.loaded ? 'transition-all' : '';
 
                         return (
-                            <li key={id} className="flex justify-between mt-2 first:mt-0">
+                            <li key={id} className="flex justify-between mt-1 xl:mt-2 first:mt-0">
                                 {setting.label}
                                 {
                                     'toggle' === setting.type && (

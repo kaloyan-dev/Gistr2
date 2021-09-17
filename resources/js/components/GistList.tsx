@@ -83,7 +83,8 @@ const GistList: FC = () => {
     }
 
     return (
-        <div className="shadow mt-4 w-full">
+        <div className="shadow mt-4 w-full relative">
+            <Loading />
             <ul>
                 {
                     gists.filtered.map((gist, id) => {
@@ -104,7 +105,6 @@ const GistList: FC = () => {
                             <li className={`${bgColor} first:mt-0 cursor-pointer border-b last:border-b-0 select-none`} key={id}>
                                 <div className="relative pl-[40px]">
                                     <div className={`${width} h-full absolute top-0 left-0 transition-all`} onClick={(event) => {handleSelected(event, gist.id)}}>
-                                        <Loading />
                                         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[20px] h-[20px] border border-gray-500">
                                             {
                                                 state.selected.includes(gist.id) && (

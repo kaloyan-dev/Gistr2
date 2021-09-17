@@ -10,7 +10,7 @@ import GDPR from './GDPR';
 import GistList from './GistList';
 import Icon from './Icon';
 import Pagination from './Pagination';
-import { paginateGists, saveCache } from '../helpers/utils';
+import { paginateGists, clearFoldersCache, saveCache } from '../helpers/utils';
 
 const App: FC = () => {
     const [page, setPage] = useState<number>(1);
@@ -75,6 +75,7 @@ const App: FC = () => {
                                             actions.setSourceGists(data);
                                             actions.setFilteredGists(data);
                                             paginateGists(state.settings.per_page, state, actions);
+                                            clearFoldersCache(state, actions);
                                             actions.setLoaded(true);
                                         } else {
                                             fetchGists(page);
@@ -87,7 +88,7 @@ const App: FC = () => {
     }, []);
 
     const fetchGists = (page: number) => {
-        fetch(`gists?page=${page}&per_page=${state.settings.per_page}`)
+        fetch(`gists?page=${page}&per_page=100`)
             .then(response => response.json())
             .then(data => {
                 const currentGists = [...state.gists.source];
@@ -97,15 +98,16 @@ const App: FC = () => {
                     paginateGists(state.settings.per_page, state, actions);
                 }
 
-                if (data.length < state.settings.per_page && 'number' === typeof state.settings.per_page) {
+                if (data.length < 100 && 'number' === typeof state.settings.per_page) {
                     actions.setFilteredGists([...state.gists.source]);
                     paginateGists(state.settings.per_page, state, actions);
                     saveCache(state);
+                    clearFoldersCache(state, actions);
                     actions.setLoaded(true);
                     return;
                 }
 
-                if (state.settings.per_page === data.length) {
+                if (100 === data.length) {
                     fetchGists(page + 1);
                     setPage(page + 1);
                 }
