@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import { useAppState, useActions } from '../overmind';
+import Loading from './Loading';
 
 const Pagination: FC = () => {
     const actions                         = useActions();
@@ -7,18 +8,25 @@ const Pagination: FC = () => {
     const padding                         = settings.compact_mode ? 'p-2': 'p-4';
     const pages                           = Array.from(Array(maxPage).keys());
 
-    return (
-        <div className={`${padding} bg-white shadow flex items-center transition-all w-full`}>
-            {
-                pages.map((page, index) => {
-                    const realPage   = page + 1;
-                    const background = viewPage === realPage ? 'bg-gray-700': 'bg-gray-400';
+    if (maxPage < 2) {
+        return null;
+    }
 
-                    return (
-                        <span key={index} className={`${background} block py-2 px-4 mr-4 text-white cursor-pointer`} onClick={() => actions.setViewPage(realPage)}>{realPage}</span>
-                    );
-                })
-            }
+    return (
+        <div className="relative mt-4 w-full">
+            <Loading />
+            <div className={`${padding} bg-white shadow flex items-center transition-all w-full`}>
+                {
+                    pages.map((page, index) => {
+                        const realPage   = page + 1;
+                        const background = viewPage === realPage ? 'bg-gray-700': 'bg-gray-400';
+
+                        return (
+                            <span key={index} className={`${background} block py-2 px-4 mr-4 text-white cursor-pointer`} onClick={() => actions.setViewPage(realPage)}>{realPage}</span>
+                        );
+                    })
+                }
+            </div>
         </div>
     );
 }

@@ -105,8 +105,6 @@ export const paginateGists = (per_page: number, state: Context['state'], actions
         if (counter > per_page) {
             page++;
             counter = 1;
-
-            actions.setMaxPage(page);
         }
 
         counter++;
@@ -118,6 +116,7 @@ export const paginateGists = (per_page: number, state: Context['state'], actions
         });
     });
 
+    actions.setMaxPage(page);
     actions.setViewPage(1);
     actions.setFilteredGists(currentGists);
 };

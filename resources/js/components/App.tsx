@@ -187,14 +187,7 @@ const App: FC = () => {
                     <Filter />
                     <div className={`flex flex-wrap ${reverseClass}`}>
                         <GistList />
-                        {
-                            state.maxPage > 1 && (
-                                <div className="relative mt-4 w-full">
-                                    <Loading />
-                                    <Pagination />
-                                </div>
-                            )
-                        }
+                        <Pagination />
                     </div>
                 </div>
             </div>
