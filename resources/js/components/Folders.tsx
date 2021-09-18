@@ -2,7 +2,6 @@ import React, { FC, useState, useRef, useEffect } from 'react';
 import { useAppState, useActions } from '../overmind';
 
 import Icon from './Icon';
-import Loading from './Loading';
 
 import { Folder } from '../helpers/interfaces';
 import { getColorMap, paginateGists, save } from '../helpers/utils';
@@ -126,15 +125,12 @@ const Folders: FC = () => {
         if ('number' === typeof state.settings.per_page) {
             paginateGists(state.settings.per_page, state, actions);
         }
-
-        save(state);
     };
 
     const bgClass = 0 !== state.selected.length && state.settings.highlight_folders ? 'bg-yellow-50 ring-2 ring-yellow-200 -mx-2 px-2' : '';
 
     return (
         <div className="relative select-none">
-            <Loading />
             <ul className={`${bgClass} py-3 my-3 text-sm leading-[24px]`}>
                 {
                     state.folders.map((folder, index) => {

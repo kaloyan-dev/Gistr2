@@ -37,6 +37,10 @@ export const toggleSetting = ({ state }: Context, setting: string) => {
     state.settings = {...state.settings, ...settings};
 }
 
+export const setSettingsOpen = ({ state }: Context, open: boolean) => {
+    state.settingsOpen = open;
+}
+
 export const setAddFolder = ({ state }: Context, add: boolean) => {
     state.addFolder = add;
 }

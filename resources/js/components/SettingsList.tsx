@@ -1,9 +1,6 @@
 import React, { FC } from 'react';
 import { useAppState, useActions } from '../overmind';
 
-import Icon from './Icon';
-import Loading from './Loading';
-
 import { getSettingsMap, paginateGists, save } from '../helpers/utils';
 
 const SettingsList: FC = () => {
@@ -28,13 +25,8 @@ const SettingsList: FC = () => {
     }
 
     return (
-        <div className="text-sm mt-6 xl:mt-10 relative">
-            <Loading />
-            <h2 className="flex justify-center leading-[24px]">
-                <Icon type="cog" classes="w-6 h-6" />
-                <span className="ml-2">Settings</span>
-            </h2>
-            <ul className="mt-4 py-2">
+        <div className="text-sm relative">
+            <ul>
                 {
                     settingsMap.map((setting, id) => {
                         const color      = state.settings[setting.name] ? 'bg-blue-500': 'bg-gray-700';
@@ -42,7 +34,7 @@ const SettingsList: FC = () => {
                         const transition = state.loaded ? 'transition-all' : '';
 
                         return (
-                            <li key={id} className="flex justify-between mt-1 xl:mt-2 first:mt-0">
+                            <li key={id} className="flex justify-between mt-2 first:mt-0">
                                 {setting.label}
                                 {
                                     'toggle' === setting.type && (

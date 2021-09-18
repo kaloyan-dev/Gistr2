@@ -6,6 +6,7 @@ type State = {
     folder: number;
     folders: Folder[];
     settings: Settings;
+    settingsOpen: boolean;
     loaded: boolean;
     maxPage: number;
     viewPage: number;
@@ -43,6 +44,7 @@ export const state: State = {
         'hide_gdpr': false,
         'per_page': 15,
     },
+    settingsOpen: false,
     loaded: false,
     maxPage: 1,
     viewPage: 1,
