@@ -16,7 +16,7 @@ const GistList: FC = () => {
     const baseURL = 'https://gist.github.com';
 
     const [open, setOpen] = useState<string[]>([]);
-    const [copied, setCopied] = useState<boolean>(false);
+    const [copied, setCopied] = useState<string>('');
 
     const toggleOpen = (id: string) => {
         let editOpen = [...open];
@@ -38,16 +38,16 @@ const GistList: FC = () => {
         return `${baseURL}/${username}/${gist.id}${param}`;
     };
 
-    const copyToClipboard = (url: string) => {
+    const copyToClipboard = (gist: Gist) => {
         const $clipboard = document.createElement('textarea');
-        $clipboard.value = url;
+        $clipboard.value = getGistURL(gist);
         $clipboard.style.position = 'fixed';
         document.body.appendChild($clipboard);
         $clipboard.focus();
         $clipboard.select();
         document.execCommand('copy');
         document.body.removeChild($clipboard);
-        setCopied(true);
+        setCopied(gist.id);
     }
 
     const gistTitle = (gist: Gist) => {
@@ -126,8 +126,8 @@ const GistList: FC = () => {
                                             <a href={getGistURL(gist, '/edit')} target="_blank" className="ml-3 hover:text-gray-700">
                                                 <Icon type="pencil" tooltip="Edit on GitHub" classes="w-6 h-6" />
                                             </a>
-                                            <span className="ml-3 hover:text-gray-700" onClick={() => copyToClipboard(getGistURL(gist))} onMouseEnter={() => setCopied(false)}>
-                                                <Icon type="clipboard" tooltip={copied ? 'Copied !' : 'Copy URL to Clipboard'} classes="w-6 h-6" />
+                                            <span className="ml-3 hover:text-gray-700" onClick={() => copyToClipboard(gist)} onMouseEnter={() => setCopied('')}>
+                                                <Icon type={copied === gist.id ? 'clipboard-check' : 'clipboard'} tooltip={copied ? 'Copied !' : 'Copy URL to Clipboard'} classes="w-6 h-6" />
                                             </span>
                                             <span className="ml-3 hover:text-green-500" onClick={() => toggleFavorite(gist.id)}>
                                                 <Icon type={starIcon} tooltip={isFavorite ? 'Unfavorite' : 'Favorite'} classes={classes} />
