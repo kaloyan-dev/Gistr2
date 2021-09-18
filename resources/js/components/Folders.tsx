@@ -4,7 +4,7 @@ import { useAppState, useActions } from '../overmind';
 import Icon from './Icon';
 
 import { Folder } from '../helpers/interfaces';
-import { getColorMap, paginateGists, save } from '../helpers/utils';
+import { getColorMap, toggleFolder, save } from '../helpers/utils';
 
 const Folders: FC = () => {
     const state = useAppState();
@@ -118,13 +118,7 @@ const Folders: FC = () => {
         }
 
         // Toggle active folder
-        const selectedFolder = folder.id === state.folder ? 0 : folder.id;
-
-        actions.setFolder(selectedFolder);
-
-        if ('number' === typeof state.settings.per_page) {
-            paginateGists(state.settings.per_page, state, actions);
-        }
+        toggleFolder(state, actions, folder.id);
     };
 
     const bgClass = 0 !== state.selected.length && state.settings.highlight_folders ? 'bg-yellow-50 ring-2 ring-yellow-200 -mx-2 px-2' : '';

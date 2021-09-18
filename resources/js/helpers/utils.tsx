@@ -122,6 +122,16 @@ export const paginateGists = (per_page: number, state: Context['state'], actions
     actions.setFilteredGists(currentGists);
 };
 
+export const toggleFolder = (state: Context['state'], actions: Context['actions'], id: number) => {
+    const selectedFolder = id === state.folder ? 0 : id;
+
+    actions.setFolder(selectedFolder);
+
+    if ('number' === typeof state.settings.per_page) {
+        paginateGists(state.settings.per_page, state, actions);
+    }
+}
+
 export const clearFoldersCache = (state: Context['state'], actions: Context['actions']) => {
     const gists              = state.gists.filtered.map((gist) => gist.id);
     const folders            = state.folders;

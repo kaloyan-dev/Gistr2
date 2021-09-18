@@ -10,7 +10,7 @@ import GDPR from './GDPR';
 import GistList from './GistList';
 import Icon from './Icon';
 import Pagination from './Pagination';
-import { paginateGists, clearFoldersCache, saveCache } from '../helpers/utils';
+import { paginateGists, toggleFolder, clearFoldersCache, saveCache } from '../helpers/utils';
 
 const App: FC = () => {
     const [page, setPage] = useState<number>(1);
@@ -20,7 +20,7 @@ const App: FC = () => {
 
     useEffect(() => {
         document.onkeydown = (event) => {
-            if ('Escape' === event.code) {
+            if ('Escape' === event.code && ! state.filterFocus) {
                 actions.clearSelected();
                 actions.setAddFolder(false);
                 actions.setEditFolder(0);
@@ -51,6 +51,17 @@ const App: FC = () => {
 
                 actions.setSelected(selected);
             }
+
+            if (/(digit|numpad)[0-9]/i.test(event.code) && (event.ctrlKey || event.metaKey) && ! state.filterFocus) {
+                event.preventDefault();
+
+                const keyNumber = parseInt(event.code.replace(/(digit|numpad)/gi, ''));
+
+                if ('number' === typeof keyNumber && ! ( keyNumber > state.folders.length ) ) {
+                    toggleFolder(state, actions, keyNumber);
+                }
+            }
+
         }
 
         fetch('userdata')
