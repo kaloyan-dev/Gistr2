@@ -52,7 +52,7 @@ const App: FC = () => {
                 actions.setSelected(selected);
             }
 
-            if (/(digit|numpad)[0-9]/i.test(event.code) && (event.ctrlKey || event.metaKey) && ! state.filterFocus) {
+            if (/(digit|numpad)[0-9]/i.test(event.code) && (event.ctrlKey || event.metaKey)) {
                 event.preventDefault();
 
                 const keyNumber = parseInt(event.code.replace(/(digit|numpad)/gi, ''));

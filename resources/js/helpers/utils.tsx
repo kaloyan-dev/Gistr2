@@ -54,6 +54,16 @@ export const getSettingsMap = () => {
             type: 'toggle',
         },
         {
+            name: 'select_on_filter',
+            label: 'Select On Filter',
+            type: 'toggle',
+        },
+        {
+            name: 'clear_on_filter',
+            label: 'Clear On Filter',
+            type: 'toggle',
+        },
+        {
             name: 'use_cache',
             label: 'Use Cache',
             type: 'toggle',
@@ -99,6 +109,15 @@ export const paginateGists = (per_page: number, state: Context['state'], actions
         filteredGists = filteredGistsByName.filter((gist) => {
             return gist.name.match( new RegExp( state.filter, 'gi' ) );
         });
+
+        if (state.settings.select_on_filter) {
+            const filteredIDs    = filteredGists.map((gist) => gist.id);
+            const notYetSelected = filteredIDs.filter((id)  => ! state.selected.includes(id));
+
+            actions.setSelected([...state.selected, ...notYetSelected]);
+        } else if (state.settings.clear_on_filter) {
+            actions.setSelected([]);
+        }
     }
 
     filteredGists.forEach((gist) => {

@@ -40,6 +40,8 @@ export const state: State = {
         'sidebar_right': false,
         'highlight_folders': true,
         'folder_labels': true,
+        'select_on_filter': false,
+        'clear_on_filter': false,
         'use_cache': true,
         'hide_gdpr': false,
         'per_page': 15,
