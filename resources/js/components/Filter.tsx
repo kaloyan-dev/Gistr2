@@ -34,6 +34,7 @@ const Filter: FC = () => {
             <Loading />
             <form method="get">
                 <input
+                    id="filter"
                     type="text"
                     placeholder="Filter by name"
                     className={`${padding} text-gray-600 outline-none w-full transition-all`}

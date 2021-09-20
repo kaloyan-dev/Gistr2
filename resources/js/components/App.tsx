@@ -20,10 +20,21 @@ const App: FC = () => {
 
     useEffect(() => {
         document.onkeydown = (event) => {
-            if ('Escape' === event.code && ! state.filterFocus) {
-                actions.clearSelected();
-                actions.setAddFolder(false);
-                actions.setEditFolder(0);
+            if ('Escape' === event.code) {
+                if (state.filterFocus) {
+                    actions.setFilter('');
+
+                    const $filter = document.getElementById('filter') as HTMLInputElement;
+                    $filter.value = '';
+
+                    if ('number' === typeof state.settings.per_page) {
+                        paginateGists(state.settings.per_page, state, actions);
+                    }
+                } else {
+                    actions.clearSelected();
+                    actions.setAddFolder(false);
+                    actions.setEditFolder(0);
+                }
             }
 
             if ('KeyA' === event.code && (event.ctrlKey || event.metaKey) && state.gists.filtered.length && ! state.filterFocus) {
