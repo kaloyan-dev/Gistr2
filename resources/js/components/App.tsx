@@ -10,7 +10,7 @@ import GDPR from './GDPR';
 import GistList from './GistList';
 import Icon from './Icon';
 import Pagination from './Pagination';
-import { paginateGists, toggleFolder, clearFoldersCache, saveCache } from '../helpers/utils';
+import { paginateGists, toggleFolder, clearFoldersCache, saveCache, save, getFolderID } from '../helpers/utils';
 
 const App: FC = () => {
     const [page, setPage] = useState<number>(1);
@@ -57,8 +57,21 @@ const App: FC = () => {
 
                 const keyNumber = parseInt(event.code.replace(/(digit|numpad)/gi, ''));
 
+                if (event.shiftKey) {
+                    if (0 !== state.selected.length && ! ( keyNumber > state.folders.length ) ) {
+                        if (0 !== state.selected.length) {
+                            const folderID = getFolderID(state, keyNumber);
+                            actions.addOrRemoveFromFolder(folderID);
+                            save(state);
+                            return;
+                        }
+                    }
+
+                    return;
+                }
+
                 if ('number' === typeof keyNumber && ! ( keyNumber > state.folders.length ) ) {
-                    toggleFolder(state, actions, keyNumber);
+                    toggleFolder(state, actions, getFolderID(state, keyNumber));
                 }
             }
 
