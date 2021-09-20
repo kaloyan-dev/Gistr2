@@ -103,6 +103,7 @@ const Folders: FC = () => {
 
         folders.splice(current, 1);
         actions.setFolders(folders);
+        actions.setFolder(0);
         save(state);
     };
 
