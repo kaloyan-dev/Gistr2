@@ -19,7 +19,7 @@
         "laravel/sail": "1.10.1",
         "mockery/mockery": "1.4.4",
         "nunomaduro/collision": "5.10.0",
-        "phpunit/phpunit": "9.5.9"
+        "phpunit/phpunit": "9.5.10"
     },
     "autoload": {
         "psr-4": {
