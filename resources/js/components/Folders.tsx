@@ -110,6 +110,8 @@ const Folders: FC = () => {
     const handleFolder = (folder: Folder) => {
         actions.setAddFolder(false);
         actions.setEditFolder(0);
+        setTitle('');
+        setColors('gray');
 
         // Add or remove Gist from folder
         if (0 !== state.selected.length) {
