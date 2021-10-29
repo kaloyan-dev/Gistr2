@@ -13,7 +13,7 @@
         "@babel/preset-react": "7.14.5",
         "autoprefixer": "10.4.0",
         "axios": "0.24.0",
-        "laravel-mix": "6.0.34",
+        "laravel-mix": "6.0.37",
         "lodash": "4.17.21",
         "postcss": "8.3.11",
         "tailwindcss": "2.2.17",
