@@ -201,6 +201,18 @@ const App: FC = () => {
                                         </div>
                                     </div>
 
+                                    {
+                                        state.settings.show_selected_count && (
+                                            <div className="flex text-sm leading-[24px] text-gray-500 mt-2">
+                                                <Icon type="check" classes="w-6 h-6" />
+                                                <div className="ml-2 w-full flex justify-between">
+                                                    <p>Selected</p>
+                                                    <span className="text-xs leading-[24px]">{state.selected.length}</span>
+                                                </div>
+                                            </div>
+                                        )
+                                    }
+
                                     <Folders />
                                 </>
                             )

@@ -44,6 +44,11 @@ export const getSettingsMap = () => {
             type: 'toggle',
         },
         {
+            name: 'show_selected_count',
+            label: 'Show Selected Count',
+            type: 'toggle',
+        },
+        {
             name: 'highlight_folders',
             label: 'Highlight Folders',
             type: 'toggle',

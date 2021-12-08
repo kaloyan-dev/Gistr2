@@ -38,6 +38,7 @@ export const state: State = {
         'hide_user_info': false,
         'pagination_top': false,
         'sidebar_right': false,
+        'show_selected_count': false,
         'highlight_folders': true,
         'folder_labels': true,
         'select_on_filter': false,
