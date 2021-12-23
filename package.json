@@ -21,7 +21,7 @@
         "typescript": "4.5.4"
     },
     "dependencies": {
-        "@types/react": "17.0.37",
+        "@types/react": "17.0.38",
         "@types/react-dom": "17.0.11",
         "overmind": "28.0.1",
         "overmind-react": "29.0.1",
