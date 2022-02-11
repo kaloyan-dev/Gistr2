@@ -161,64 +161,81 @@ const App: FC = () => {
         }
     };
 
-    const invertedClass    = state.settings.inverted_colors ? 'dark': '';
-    const boldClass        = 0 === state.folder ? 'font-bold' : '';
-    const reverseClass     = state.settings.pagination_top ? 'flex-col-reverse' : '';
-    const wrapperClass     = state.settings.sidebar_right ? 'md:pr-[260px]' : 'md:pl-[260px]';
-    const sidebarClass     = state.settings.sidebar_right ? 'right-0' : 'left-0';
-    const foldersTabClass  = state.settingsOpen ? 'text-gray-400' : 'border-b-2 border-gray-700';
-    const settingsTabClass = state.settingsOpen ? 'border-b-2 border-gray-700' : 'text-gray-400';
+    const invertedClass        = state.settings.inverted_colors ? 'dark': '';
+    const boldClass            = 0 === state.folder ? 'font-bold' : '';
+    const reverseClass         = state.settings.pagination_top ? 'flex-col-reverse' : '';
+    const wrapperClassLeft     = state.settings.sidebar_hidden ? 'md:pr-[22px]' : 'md:pr-[260px]';
+    const wrapperClassRight    = state.settings.sidebar_hidden ? 'md:pl-[22px]' : 'md:pl-[260px]';
+    const wrapperClass         = state.settings.sidebar_right ? wrapperClassLeft : wrapperClassRight;
+    const sidebarClass         = state.settings.sidebar_right ? 'right-0' : 'left-0';
+    const foldersTabClass      = state.settingsOpen ? 'text-gray-400' : 'border-b-2 border-gray-700';
+    const settingsTabClass     = state.settingsOpen ? 'border-b-2 border-gray-700' : 'text-gray-400';
+    const sidebarChevronShown  = state.settings.sidebar_right ? 'chevron-left' : 'chevron-right';
+    const sidebarChevronHidden = state.settings.sidebar_right ? 'chevron-right' : 'chevron-left';
+    const sidebarChevron       = state.settings.sidebar_hidden ? sidebarChevronShown : sidebarChevronHidden;
+    const sidebarChevronX      = state.settings.sidebar_right ? 'right-0' : 'left-0';
 
     return (
         <div className={`${invertedClass} bg-gray-100 h-full`}>
             { state.loaded && <GDPR />}
-            <div className={`h-full ${wrapperClass}`}>
+            <div className={`h-full relative ${wrapperClass}`}>
+                <div className={`${sidebarChevronX} fixed top-[22px] z-10 p-2 text-gray-600 cursor-pointer hidden md:block`} onClick={() => {
+                    actions.toggleSetting('sidebar_hidden');
+                    save(state);
+                }}>
+                    <Icon type={sidebarChevron} classes="w-6 h-6" />
+                </div>
+
                 <div className="p-4">
-                    <div className={`w-[260px] bottom-0 bg-white p-6 shadow hidden md:block fixed top-0 ${sidebarClass}`}>
-                        <Loading />
-                        <UserProfile />
+                    {
+                        ! state.settings.sidebar_hidden && (
+                            <div className={`w-[260px] bottom-0 bg-white p-6 shadow hidden md:block fixed top-0 ${sidebarClass}`}>
+                                <Loading />
+                                <UserProfile />
 
-                        <div className="flex leading-[24px] my-10 text-sm justify-between">
-                            <div className={`${foldersTabClass} flex justify-center px-2 pb-2 cursor-pointer`} onClick={() => actions.setSettingsOpen(false)}>
-                                <Icon type="folders" classes="w-6 h-6" />
-                                <span className="ml-2">Folders</span>
-                            </div>
-
-                            <div className={`${settingsTabClass} flex justify-center px-2 pb-2 cursor-pointer`} onClick={() => actions.setSettingsOpen(true)}>
-                                <Icon type="cog" classes="w-6 h-6" />
-                                <span className="ml-2">Settings</span>
-                            </div>
-                        </div>
-
-                        {
-                            ! state.settingsOpen && (
-                                <>
-                                    <div className="flex text-sm leading-[24px] text-gray-900">
-                                        <Icon type="code" classes="w-6 h-6" />
-                                        <div className={`${boldClass} ml-2 w-full flex justify-between cursor-pointer`} onClick={() => resetFolder()}>
-                                            <p>All Gists</p>
-                                            <span className="text-xs leading-[24px]">{state.gists.source.length}</span>
-                                        </div>
+                                <div className="flex leading-[24px] my-10 text-sm justify-between">
+                                    <div className={`${foldersTabClass} flex justify-center px-2 pb-2 cursor-pointer`} onClick={() => actions.setSettingsOpen(false)}>
+                                        <Icon type="folders" classes="w-6 h-6" />
+                                        <span className="ml-2">Folders</span>
                                     </div>
 
-                                    {
-                                        state.settings.show_selected_count && (
-                                            <div className="flex text-sm leading-[24px] text-gray-500 mt-2">
-                                                <Icon type="check" classes="w-6 h-6" />
-                                                <div className="ml-2 w-full flex justify-between">
-                                                    <p>Selected</p>
-                                                    <span className="text-xs leading-[24px]">{state.selected.length}</span>
+                                    <div className={`${settingsTabClass} flex justify-center px-2 pb-2 cursor-pointer`} onClick={() => actions.setSettingsOpen(true)}>
+                                        <Icon type="cog" classes="w-6 h-6" />
+                                        <span className="ml-2">Settings</span>
+                                    </div>
+                                </div>
+
+                                {
+                                    ! state.settingsOpen && (
+                                        <>
+                                            <div className="flex text-sm leading-[24px] text-gray-900">
+                                                <Icon type="code" classes="w-6 h-6" />
+                                                <div className={`${boldClass} ml-2 w-full flex justify-between cursor-pointer`} onClick={() => resetFolder()}>
+                                                    <p>All Gists</p>
+                                                    <span className="text-xs leading-[24px]">{state.gists.source.length}</span>
                                                 </div>
                                             </div>
-                                        )
-                                    }
 
-                                    <Folders />
-                                </>
-                            )
-                        }
-                        { state.settingsOpen && <SettingsList /> }
-                    </div>
+                                            {
+                                                state.settings.show_selected_count && (
+                                                    <div className="flex text-sm leading-[24px] text-gray-500 mt-2">
+                                                        <Icon type="check" classes="w-6 h-6" />
+                                                        <div className="ml-2 w-full flex justify-between">
+                                                            <p>Selected</p>
+                                                            <span className="text-xs leading-[24px]">{state.selected.length}</span>
+                                                        </div>
+                                                    </div>
+                                                )
+                                            }
+
+                                            <Folders />
+                                        </>
+                                    )
+                                }
+                                { state.settingsOpen && <SettingsList /> }
+                            </div>
+                        )
+                    }
 
                     <Filter />
                     <div className={`flex flex-wrap ${reverseClass}`}>

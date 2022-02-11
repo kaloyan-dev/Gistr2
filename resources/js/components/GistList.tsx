@@ -100,21 +100,26 @@ const GistList: FC = () => {
                         const isFavorite = state.folders[0].gists.includes(gist.id);
                         const starIcon   = isFavorite ? 'star-filled' : 'star';
                         const classes    = isFavorite ? 'w-6 h-6 text-green-500' : 'w-6 h-6';
+                        const checkboxClass = settings.sidebar_hidden ? 'pl-2' : 'md:pl-[40px]';
 
                         return (
                             <li className={`${bgColor} first:mt-0 cursor-pointer border-b last:border-b-0 select-none`} key={id}>
-                                <div className="relative pl-[40px]">
-                                    <div className={`${width} h-full absolute top-0 left-0 transition-all`} onClick={(event) => {handleSelected(event, gist.id)}}>
-                                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[20px] h-[20px] border border-gray-500">
-                                            {
-                                                state.selected.includes(gist.id) && (
-                                                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[20px] h-[20px]">
-                                                        <Icon type="check" classes="w-[20px] h-[20px]" />
-                                                    </div>
-                                                )
-                                            }
-                                        </div>
-                                    </div>
+                                <div className={`${checkboxClass} relative`}>
+                                    {
+                                        ! settings.sidebar_hidden && (
+                                            <div className={`${width} hidden md:block h-full absolute top-0 left-0 transition-all`} onClick={(event) => {handleSelected(event, gist.id)}}>
+                                                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[20px] h-[20px] border border-gray-500">
+                                                    {
+                                                        state.selected.includes(gist.id) && (
+                                                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[20px] h-[20px]">
+                                                                <Icon type="check" classes="w-[20px] h-[20px]" />
+                                                            </div>
+                                                        )
+                                                    }
+                                                </div>
+                                            </div>
+                                        )
+                                    }
                                     <div className="flex justify-between">
                                         <div className={`${padding} flex items-center w-full transition-all`} onClick={() => toggleOpen(gist.id)}>
                                             <h2 className={titleColor}>{gistTitle(gist)}</h2>

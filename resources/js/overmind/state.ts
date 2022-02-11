@@ -46,6 +46,7 @@ export const state: State = {
         'use_cache': true,
         'hide_gdpr': false,
         'per_page': 15,
+        'sidebar_hidden': true,
     },
     settingsOpen: false,
     loaded: false,
