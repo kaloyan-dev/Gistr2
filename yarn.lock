@@ -2261,10 +2261,10 @@ clean-css@^4.2.3:
   dependencies:
     source-map "~0.6.0"
 
-"clean-css@^4.2.3 || ^5.1.2":
-  version "5.1.2"
-  resolved "https://registry.yarnpkg.com/clean-css/-/clean-css-5.1.2.tgz#6ea0da7286b4ddc2469a1b776e2461a5007eed54"
-  integrity sha512-QcaGg9OuMo+0Ds933yLOY+gHPWbxhxqF0HDexmToPf8pczvmvZGYzd+QqWp9/mkucAOKViI+dSFOqoZIvXbeBw==
+clean-css@^5.2.4:
+  version "5.2.4"
+  resolved "https://registry.yarnpkg.com/clean-css/-/clean-css-5.2.4.tgz#982b058f8581adb2ae062520808fb2429bd487a4"
+  integrity sha512-nKseG8wCzEuji/4yrgM/5cthL9oTDc5UOQyFMvW/Q53oP6gLH690o1NbuTh6Y18nujr7BxlsFuS7gXLnLzKJGg==
   dependencies:
     source-map "~0.6.0"
 
@@ -3905,10 +3905,10 @@ klona@^2.0.4:
   resolved "https://registry.yarnpkg.com/klona/-/klona-2.0.4.tgz#7bb1e3affb0cb8624547ef7e8f6708ea2e39dfc0"
   integrity sha512-ZRbnvdg/NxqzC7L9Uyqzf4psi1OM4Cuc+sJAkQPjO6XkQIJTNbfK2Rsmbw8fx1p2mkZdp2FZYo2+LwXYY/uwIA==
 
-laravel-mix@6.0.42:
-  version "6.0.42"
-  resolved "https://registry.yarnpkg.com/laravel-mix/-/laravel-mix-6.0.42.tgz#cfbf0389243b2911ca41531bcb5ddea30badcbda"
-  integrity sha512-3sdm4nltJ3C/cVihiEBpj81HEPIZodCGDfyUKqFpyya9EvWrKOlpb6mMocngH5dwC9cm3mS5E5Ukqs5Xe8LLgg==
+laravel-mix@6.0.43:
+  version "6.0.43"
+  resolved "https://registry.yarnpkg.com/laravel-mix/-/laravel-mix-6.0.43.tgz#6a9d67419e891f5075fc08bfff47770bf1f00d8a"
+  integrity sha512-SOO+C1aOpVSAUs30DYc6k/e0QJxfyD42aav4IKJtE5UZKw9ROWcVzkVoek2J475jNeNnl7GkoLAC27gejZsQ8g==
   dependencies:
     "@babel/core" "^7.15.8"
     "@babel/plugin-proposal-object-rest-spread" "^7.15.6"
@@ -3926,7 +3926,7 @@ laravel-mix@6.0.42:
     babel-loader "^8.2.3"
     chalk "^4.1.2"
     chokidar "^3.5.2"
-    clean-css "^4.2.3 || ^5.1.2"
+    clean-css "^5.2.4"
     cli-table3 "^0.6.0"
     collect.js "^4.28.5"
     commander "^7.2.0"
