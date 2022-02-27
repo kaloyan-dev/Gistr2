@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5c4ce4a62a40750c7cf0df6b539cd17c",
+    "content-hash": "1ffcafb654c3787ff1a48a788d056cb6",
     "packages": [
         {
             "name": "brick/math",
@@ -4959,12 +4959,12 @@
             },
             "type": "library",
             "autoload": {
-                "psr-4": {
-                    "Symfony\\Component\\String\\": ""
-                },
                 "files": [
                     "Resources/functions.php"
                 ],
+                "psr-4": {
+                    "Symfony\\Component\\String\\": ""
+                },
                 "exclude-from-classmap": [
                     "/Tests/"
                 ]
@@ -5646,12 +5646,12 @@
                 }
             },
             "autoload": {
-                "psr-4": {
-                    "Facade\\FlareClient\\": "src"
-                },
                 "files": [
                     "src/helpers.php"
-                ]
+                ],
+                "psr-4": {
+                    "Facade\\FlareClient\\": "src"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -5679,16 +5679,16 @@
         },
         {
             "name": "facade/ignition",
-            "version": "2.17.3",
+            "version": "2.17.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/facade/ignition.git",
-                "reference": "29f1be7f45f6fe4ffcf59a1c87bb469d47f1d227"
+                "reference": "1d71996f83c9a5a7807331b8986ac890352b7a0c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/facade/ignition/zipball/29f1be7f45f6fe4ffcf59a1c87bb469d47f1d227",
-                "reference": "29f1be7f45f6fe4ffcf59a1c87bb469d47f1d227",
+                "url": "https://api.github.com/repos/facade/ignition/zipball/1d71996f83c9a5a7807331b8986ac890352b7a0c",
+                "reference": "1d71996f83c9a5a7807331b8986ac890352b7a0c",
                 "shasum": ""
             },
             "require": {
@@ -5728,12 +5728,12 @@
                 }
             },
             "autoload": {
-                "psr-4": {
-                    "Facade\\Ignition\\": "src"
-                },
                 "files": [
                     "src/helpers.php"
-                ]
+                ],
+                "psr-4": {
+                    "Facade\\Ignition\\": "src"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -5753,7 +5753,7 @@
                 "issues": "https://github.com/facade/ignition/issues",
                 "source": "https://github.com/facade/ignition"
             },
-            "time": "2021-12-23T13:28:01+00:00"
+            "time": "2022-02-23T18:31:24+00:00"
         },
         {
             "name": "facade/ignition-contracts",
