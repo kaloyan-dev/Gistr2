@@ -11,7 +11,7 @@
         "guzzlehttp/guzzle": "7.4.2",
         "laravel/framework": "8.83.6",
         "laravel/socialite": "5.5.2",
-        "laravel/tinker": "2.7.1"
+        "laravel/tinker": "2.7.2"
     },
     "require-dev": {
         "facade/ignition": "2.17.5",
