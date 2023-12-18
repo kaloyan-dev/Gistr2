@@ -8,10 +8,8 @@ import App from './components/App';
 const overmind = createOvermind(config);
 
 ReactDOM.render(
-	<React.StrictMode>
-        <Provider value={overmind}>
-            <App />
-        </Provider>
-	</React.StrictMode>,
-	document.getElementById('app')
+  <Provider value={overmind}>
+    <App />
+  </Provider>,
+  document.getElementById('app')
 );

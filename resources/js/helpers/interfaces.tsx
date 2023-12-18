@@ -1,32 +1,32 @@
 interface Settings {
-    [index: string]: boolean | number;
+  [index: string]: boolean | number;
 }
 
 interface Gist {
-    id: string;
-    name: string;
-    page: number;
+  id: string;
+  name: string;
+  page: number;
 };
 
 interface ColorMap {
-    [index: string]: string[];
+  [index: string]: string[];
 }
 interface Folder {
-    id: number;
-    title: string;
-    color: string;
-    gists: string[];
+  id: number;
+  title: string;
+  color: string;
+  gists: string[];
 }
 interface IconProps {
-    type: string;
-    classes: string;
-    tooltip?: string;
+  type: string;
+  classes: string;
+  tooltip?: string;
 };
 
 export {
-    Settings,
-    Gist,
-    ColorMap,
-    Folder,
-    IconProps
+  Settings,
+  Gist,
+  ColorMap,
+  Folder,
+  IconProps
 }

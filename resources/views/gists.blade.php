@@ -13,10 +13,11 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    @vite('resources/css/app.css')
 </head>
 <body class="overflow-y-scroll h-full min-h-full bg-gray-100">
     <div id="app" class="h-full"></div>
-    <script src="{{ asset('js/app.js') }}"></script>
+    @viteReactRefresh
+    @vite('resources/js/index.tsx')
 </body>
 </html>

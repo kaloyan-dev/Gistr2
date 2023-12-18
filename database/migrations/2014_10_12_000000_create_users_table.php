@@ -16,13 +16,13 @@ class CreateUsersTable extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('github_id')->unique();
-            $table->string('username');
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->string('avatar');
-            $table->string('auth_token');
-            $table->text('userdata');
-            $table->mediumText('cache');
+            $table->string('username')->default('');
+            $table->string('name')->default('');
+            $table->string('email')->unique()->default('');
+            $table->string('avatar')->default('');
+            $table->string('auth_token')->default('');
+            $table->text('userdata')->default('');
+            $table->mediumText('cache')->default('');
             $table->rememberToken();
             $table->timestamps();
         });

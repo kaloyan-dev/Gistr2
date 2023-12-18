@@ -1,12 +1,3 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-body {
-    font-family: 'Roboto', sans-serif;
-}
-
-.dark,
-.dark img {
-    filter: invert(1) hue-rotate(180deg);
-}
