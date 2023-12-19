@@ -1,50 +1,67 @@
-import React, { useState, FC, useEffect } from 'react';
+import React, { useState, FC, useEffect, useRef } from 'react';
 import { useAppState, useActions } from '../overmind';
 
+import Icon from './Icon';
 import Loading from './Loading';
 
 import { useDebounce } from '../helpers/hooks';
 import { paginateGists } from '../helpers/utils';
 
 const Filter: FC = () => {
-  const state = useAppState();
-  const { filter, settings } = state;
-  const actions = useActions();
-  const padding = settings.compact_mode ? 'p-2' : 'p-4';
+    const state = useAppState();
+    const { filter, settings } = state;
+    const actions = useActions();
+    const fieldPadding = settings.compact_mode ? 'p-2' : 'p-4';
+    const iconMarginLeft = settings.compact_mode ? 'ml-2' : 'ml-4';
+    const iconMarginRight = settings.compact_mode ? 'mr-2' : 'mr-4';
 
-  const [inputFilter, setInputFilter] = useState<string>('');
-  const debouncedFilter: string = useDebounce<string>(inputFilter, 200);
+    const [inputFilter, setInputFilter] = useState<string>('');
+    const debouncedFilter: string = useDebounce<string>(inputFilter, 200);
 
-  useEffect(() => {
-    const filterTerm = inputFilter.trim();
+    const inputRef = useRef<HTMLInputElement>(null);
 
-    if (filterTerm === filter) {
-      return;
-    }
+    useEffect(() => {
+        const filterTerm = inputFilter.trim();
 
-    actions.setFilter(filterTerm);
+        if (filterTerm === filter) {
+            return;
+        }
 
-    if ('number' === typeof settings.per_page) {
-      paginateGists(settings.per_page, state, actions);
-    }
-  }, [debouncedFilter]);
+        actions.setFilter(filterTerm);
 
-  return (
-    <div className="bg-white border-b shadow relative">
-      <Loading />
-      <form method="get">
-        <input
-          id="filter"
-          type="text"
-          placeholder="Filter by name"
-          className={`${padding} text-gray-600 outline-none w-full transition-all`}
-          onChange={(event) => setInputFilter(event.target.value)}
-          onFocus={() => actions.setFilterFocus(true)}
-          onBlur={() => actions.setFilterFocus(false)}
-        />
-      </form>
-    </div>
-  );
+        if ('number' === typeof settings.per_page) {
+            paginateGists(settings.per_page, state, actions);
+        }
+    }, [debouncedFilter]);
+
+    return (
+        <div className="bg-white border-b shadow relative">
+            <Loading />
+            <form method="get" className="flex items-center text-gray-400">
+                <Icon type="filter" classes={`${iconMarginLeft} w-6 h-6 transition-all`} />
+                <input
+                    id="filter"
+                    type="text"
+                    placeholder="Filter by name"
+                    className={`${fieldPadding} text-gray-600 outline-none w-full transition-all`}
+                    onChange={(event) => setInputFilter(event.target.value)}
+                    onFocus={() => actions.setFilterFocus(true)}
+                    onBlur={() => actions.setFilterFocus(false)}
+                    ref={inputRef}
+                />
+                {
+                    inputFilter.length > 0 && (
+                        <span className={`${iconMarginRight} transition-all hover:text-gray-700`} onClick={() => {
+                            setInputFilter('');
+                            inputRef.current.value = '';
+                        }}>
+                            <Icon type="cancel" classes="w-6 h-6" />
+                        </span>
+                    )
+                }
+            </form>
+        </div>
+    );
 }
 
 export default Filter;

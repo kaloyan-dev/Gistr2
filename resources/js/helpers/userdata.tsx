@@ -4,8 +4,8 @@ const avatar = document.querySelector('[name = "avatar"]')?.getAttribute('conten
 const anonymous = document.querySelector('[name = "anonymous"]')?.getAttribute('content');
 
 export {
-  name,
-  username,
-  avatar,
-  anonymous
+    name,
+    username,
+    avatar,
+    anonymous
 }

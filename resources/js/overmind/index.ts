@@ -1,15 +1,15 @@
 import { IContext } from 'overmind';
 import {
-  createStateHook,
-  createActionsHook
+    createStateHook,
+    createActionsHook
 } from 'overmind-react';
 
 import { state } from './state';
 import * as actions from './actions';
 
 export const config = {
-  state,
-  actions
+    state,
+    actions
 };
 
 export type Context = IContext<typeof config>;
