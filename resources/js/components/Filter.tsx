@@ -54,6 +54,7 @@ const Filter: FC = () => {
                         <span className={`${iconMarginRight} transition-all hover:text-gray-700`} onClick={() => {
                             setInputFilter('');
                             inputRef.current.value = '';
+                            inputRef.current.focus();
                         }}>
                             <Icon type="cancel" classes="w-6 h-6" />
                         </span>

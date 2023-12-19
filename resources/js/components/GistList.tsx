@@ -95,7 +95,7 @@ const GistList: FC = () => {
                         const titleColor = open.includes(gist.id) ? 'text-blue-500' : 'text-gray-600';
                         const bgColor = state.selected.includes(gist.id) ? 'bg-yellow-50' : 'bg-white';
                         const itemStyle = open.includes(gist.id) ? 'h-auto' : 'h-0';
-                        const padding = settings.compact_mode ? 'p-2 pl-0' : 'p-4';
+                        const padding = settings.compact_mode ? 'p-2 md:pl-0' : 'p-4';
                         const width = settings.compact_mode ? 'w-[40px]' : 'w-[50px]';
                         const isFavorite = state.folders[0].gists.includes(gist.id);
                         const starIcon = isFavorite ? 'star-filled' : 'star';
