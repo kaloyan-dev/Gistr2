@@ -50,7 +50,7 @@ const Filter: FC = () => {
                     ref={inputRef}
                 />
                 {
-                    inputFilter.length > 0 && (
+                    filter !== '' && (
                         <span className={`${iconMarginRight} transition-all hover:text-gray-700`} onClick={() => {
                             setInputFilter('');
                             inputRef.current.value = '';
