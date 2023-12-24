@@ -1,23 +1,25 @@
-interface Settings {
+type Settings = {
     [index: string]: boolean | number;
-}
+};
 
-interface Gist {
+type Gist = {
     id: string;
     name: string;
     page: number;
 };
 
-interface ColorMap {
+type ColorMap = {
     [index: string]: string[];
-}
-interface Folder {
+};
+
+type Folder = {
     id: number;
     title: string;
     color: string;
     gists: string[];
-}
-interface IconProps {
+};
+
+type IconProps = {
     type: string;
     classes: string;
     tooltip?: string;
@@ -29,4 +31,4 @@ export {
     ColorMap,
     Folder,
     IconProps
-}
+};

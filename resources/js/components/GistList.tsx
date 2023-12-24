@@ -5,7 +5,7 @@ import GistEmbed from 'react-gist';
 import Icon from './Icon';
 import Loading from './Loading';
 
-import { Gist } from '../helpers/interfaces';
+import { Gist } from '../types';
 import { username } from '../helpers/userdata';
 import { getColorMap, save } from '../helpers/utils';
 

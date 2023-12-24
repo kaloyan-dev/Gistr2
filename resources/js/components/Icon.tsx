@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { IconProps } from '../helpers/interfaces';
+import { IconProps } from '../types';
 
 const Icon: FC<IconProps> = ({ type, classes, tooltip }) => {
     const getTooltip = () => {

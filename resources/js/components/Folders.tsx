@@ -3,7 +3,7 @@ import { useAppState, useActions } from '../overmind';
 
 import Icon from './Icon';
 
-import { Folder } from '../helpers/interfaces';
+import { Folder } from '../types';
 import { getColorMap, toggleFolder, save } from '../helpers/utils';
 
 const Folders: FC = () => {
