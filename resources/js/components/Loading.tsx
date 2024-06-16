@@ -1,8 +1,8 @@
-import React, { FC } from 'react'
-import { useAppState } from '../overmind'
+import React, { FC } from 'react';
+import { useAppState } from '../overmind';
 
 const Loading: FC = () => {
-  const state = useAppState()
+  const state = useAppState();
 
   return (
     <>
@@ -10,7 +10,7 @@ const Loading: FC = () => {
         <div className="absolute top-0 left-0 w-full h-full bg-white animate-pulse cursor-wait opacity-90 z-10"></div>
       )}
     </>
-  )
-}
+  );
+};
 
-export default Loading
+export default Loading;

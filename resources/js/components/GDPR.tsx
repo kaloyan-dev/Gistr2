@@ -1,27 +1,27 @@
-import React, { FC } from 'react'
-import Icon from './Icon'
-import { useAppState, useActions } from '../overmind'
-import { save, deleteUser } from '../helpers/utils'
+import React, { FC } from 'react';
+import Icon from './Icon';
+import { useAppState, useActions } from '../overmind';
+import { save, deleteUser } from '../helpers/utils';
 
 const GDPR: FC = () => {
-  const state = useAppState()
-  const actions = useActions()
+  const state = useAppState();
+  const actions = useActions();
 
   const agree = () => {
-    actions.updateSettings({ hide_gdpr: true })
-    save(state)
-  }
+    actions.updateSettings({ hide_gdpr: true });
+    save(state);
+  };
 
   const deletePersonalInfo = () => {
     if (!confirm('Are you sure ? This action cannot be undone.')) {
-      return
+      return;
     }
 
-    deleteUser()
-  }
+    deleteUser();
+  };
 
   if (state.settings.hide_gdpr) {
-    return null
+    return null;
   }
 
   return (
@@ -76,7 +76,7 @@ const GDPR: FC = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default GDPR
+export default GDPR;

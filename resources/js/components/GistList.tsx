@@ -1,54 +1,54 @@
-import React, { FC, useState } from 'react'
-import { useAppState, useActions } from '../overmind'
+import React, { FC, useState } from 'react';
+import { useAppState, useActions } from '../overmind';
 
-import GistEmbed from 'react-gist'
-import Icon from './Icon'
-import Loading from './Loading'
+import GistEmbed from 'react-gist';
+import Icon from './Icon';
+import Loading from './Loading';
 
-import { Gist } from '../types'
-import { username } from '../helpers/userdata'
-import { getColorMap, save } from '../helpers/utils'
+import { Gist } from '../types';
+import { username } from '../helpers/userdata';
+import { getColorMap, save } from '../helpers/utils';
 
 const GistList: FC = () => {
-  const state = useAppState()
-  const { gists, settings, viewPage } = useAppState()
-  const actions = useActions()
-  const baseURL = 'https://gist.github.com'
+  const state = useAppState();
+  const { gists, settings, viewPage } = useAppState();
+  const actions = useActions();
+  const baseURL = 'https://gist.github.com';
 
-  const [open, setOpen] = useState<string[]>([])
-  const [copied, setCopied] = useState<string>('')
+  const [open, setOpen] = useState<string[]>([]);
+  const [copied, setCopied] = useState<string>('');
 
   const toggleOpen = (id: string) => {
-    let editOpen = [...open]
+    let editOpen = [...open];
 
     if (!editOpen.includes(id)) {
-      editOpen.push(id)
-      setOpen(editOpen)
-      return
+      editOpen.push(id);
+      setOpen(editOpen);
+      return;
     }
 
     editOpen = editOpen.filter((item) => {
-      return item !== id
-    })
+      return item !== id;
+    });
 
-    setOpen(editOpen)
-  }
+    setOpen(editOpen);
+  };
 
   const getGistURL = (gist: Gist, param: string = '') => {
-    return `${baseURL}/${username}/${gist.id}${param}`
-  }
+    return `${baseURL}/${username}/${gist.id}${param}`;
+  };
 
   const copyToClipboard = (gist: Gist) => {
-    const $clipboard = document.createElement('textarea')
-    $clipboard.value = getGistURL(gist)
-    $clipboard.style.position = 'fixed'
-    document.body.appendChild($clipboard)
-    $clipboard.focus()
-    $clipboard.select()
-    document.execCommand('copy')
-    document.body.removeChild($clipboard)
-    setCopied(gist.id)
-  }
+    const $clipboard = document.createElement('textarea');
+    $clipboard.value = getGistURL(gist);
+    $clipboard.style.position = 'fixed';
+    document.body.appendChild($clipboard);
+    $clipboard.focus();
+    $clipboard.select();
+    document.execCommand('copy');
+    document.body.removeChild($clipboard);
+    setCopied(gist.id);
+  };
 
   const gistTitle = (gist: Gist) => {
     return (
@@ -57,8 +57,8 @@ const GistList: FC = () => {
         {state.settings.folder_labels &&
           state.folders.map((folder, index) => {
             if (folder.gists.includes(gist.id)) {
-              const colorMap = getColorMap()
-              const bgColor = colorMap[folder.color][1]
+              const colorMap = getColorMap();
+              const bgColor = colorMap[folder.color][1];
 
               return (
                 <span
@@ -67,12 +67,12 @@ const GistList: FC = () => {
                 >
                   {folder.title}
                 </span>
-              )
+              );
             }
           })}
       </span>
-    )
-  }
+    );
+  };
 
   const handleSelected = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
@@ -81,13 +81,13 @@ const GistList: FC = () => {
     actions.toggleSelected({
       id,
       event,
-    })
-  }
+    });
+  };
 
   const toggleFavorite = (id: string) => {
-    actions.toggleFavorite(id)
-    save(state)
-  }
+    actions.toggleFavorite(id);
+    save(state);
+  };
 
   return (
     <div className="shadow mt-4 w-full relative">
@@ -95,24 +95,27 @@ const GistList: FC = () => {
       <ul>
         {gists.filtered.map((gist, id) => {
           if (gist.page !== viewPage) {
-            return
+            return;
           }
 
           const titleColor = open.includes(gist.id)
             ? 'text-blue-500'
-            : 'text-gray-600'
-          const bgColor = state.selected.includes(gist.id)
+            : 'text-gray-600';
+          const bgColorDefault = open.includes(gist.id)
+            ? 'bg-blue-50'
+            : 'bg-white';
+          let bgColor = state.selected.includes(gist.id)
             ? 'bg-yellow-50'
-            : 'bg-white'
-          const itemStyle = open.includes(gist.id) ? 'h-auto' : 'h-0'
-          const padding = settings.compact_mode ? 'p-2 md:pl-0' : 'p-4'
-          const width = settings.compact_mode ? 'w-[40px]' : 'w-[50px]'
-          const isFavorite = state.folders[0].gists.includes(gist.id)
-          const starIcon = isFavorite ? 'star-filled' : 'star'
-          const classes = isFavorite ? 'w-6 h-6 text-green-500' : 'w-6 h-6'
+            : `${bgColorDefault} hover:bg-blue-50 transition-all`;
+          const itemStyle = open.includes(gist.id) ? 'h-auto' : 'h-0';
+          const padding = settings.compact_mode ? 'p-2 md:pl-0' : 'p-4';
+          const width = settings.compact_mode ? 'w-[40px]' : 'w-[50px]';
+          const isFavorite = state.folders[0].gists.includes(gist.id);
+          const starIcon = isFavorite ? 'star-filled' : 'star';
+          const classes = isFavorite ? 'w-6 h-6 text-green-500' : 'w-6 h-6';
           const checkboxClass = settings.sidebar_hidden
             ? 'pl-2'
-            : 'md:pl-[40px]'
+            : 'md:pl-[40px]';
 
           return (
             <li
@@ -124,7 +127,7 @@ const GistList: FC = () => {
                   <div
                     className={`${width} hidden md:block h-full absolute top-0 left-0 transition-all`}
                     onClick={(event) => {
-                      handleSelected(event, gist.id)
+                      handleSelected(event, gist.id);
                     }}
                   >
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[20px] h-[20px] border border-gray-300 rounded-[4px]">
@@ -198,11 +201,11 @@ const GistList: FC = () => {
                 {open.includes(gist.id) && <GistEmbed key={id} id={gist.id} />}
               </div>
             </li>
-          )
+          );
         })}
       </ul>
     </div>
-  )
-}
+  );
+};
 
-export default GistList
+export default GistList;

@@ -1,5 +1,5 @@
-import { Context } from '../overmind'
-import { Gist, ColorMap, Folder } from '../types'
+import { Context } from '../overmind';
+import { Gist, ColorMap, Folder } from '../types';
 
 export const getColorMap = () => {
   const colorMap: ColorMap = {
@@ -11,10 +11,10 @@ export const getColorMap = () => {
     indigo: ['text-indigo-500', 'bg-indigo-500'],
     purple: ['text-purple-500', 'bg-purple-500'],
     pink: ['text-pink-500', 'bg-pink-500'],
-  }
+  };
 
-  return colorMap
-}
+  return colorMap;
+};
 
 export const getSettingsMap = () => {
   const settingsMap = [
@@ -84,160 +84,160 @@ export const getSettingsMap = () => {
       type: 'select',
       options: [5, 10, 15, 20, 25, 30, 40, 50],
     },
-  ]
+  ];
 
-  return settingsMap
-}
+  return settingsMap;
+};
 
 export const paginateGists = (
   per_page: number,
   state: Context['state'],
   actions: Context['actions']
 ) => {
-  let currentGists: Gist[] = []
-  let counter = 1
-  let page = 1
-  let filteredGists = [...state.gists.source]
+  let currentGists: Gist[] = [];
+  let counter = 1;
+  let page = 1;
+  let filteredGists = [...state.gists.source];
 
-  actions.setMaxPage(1)
+  actions.setMaxPage(1);
 
   if (0 !== state.folder) {
-    let filteredGistsByFolder = [...filteredGists]
+    let filteredGistsByFolder = [...filteredGists];
     const currentFolder = state.folders.find(
       (folderObject: Folder) => folderObject.id === state.folder
-    )
+    );
 
     if (currentFolder) {
       filteredGists = filteredGistsByFolder.filter((gist) => {
-        return currentFolder.gists.includes(gist.id)
-      })
+        return currentFolder.gists.includes(gist.id);
+      });
     }
   }
 
   if ('' !== state.filter) {
-    let filteredGistsByName = [...filteredGists]
+    let filteredGistsByName = [...filteredGists];
 
     filteredGists = filteredGistsByName.filter((gist) => {
-      return gist.name.match(new RegExp(state.filter, 'gi'))
-    })
+      return gist.name.match(new RegExp(state.filter, 'gi'));
+    });
 
     if (state.settings.select_on_filter) {
-      const filteredIDs = filteredGists.map((gist) => gist.id)
+      const filteredIDs = filteredGists.map((gist) => gist.id);
       const notYetSelected = filteredIDs.filter(
         (id) => !state.selected.includes(id)
-      )
+      );
 
-      actions.setSelected([...state.selected, ...notYetSelected])
+      actions.setSelected([...state.selected, ...notYetSelected]);
     } else if (state.settings.clear_on_filter) {
-      actions.setSelected([])
+      actions.setSelected([]);
     }
   }
 
   filteredGists.forEach((gist) => {
     if (counter > per_page) {
-      page++
-      counter = 1
+      page++;
+      counter = 1;
     }
 
-    counter++
+    counter++;
 
     currentGists.push({
       id: gist.id,
       name: gist.name,
       page,
-    })
-  })
+    });
+  });
 
-  actions.setMaxPage(page)
-  actions.setViewPage(1)
-  actions.setFilteredGists(currentGists)
-}
+  actions.setMaxPage(page);
+  actions.setViewPage(1);
+  actions.setFilteredGists(currentGists);
+};
 
 export const getFolderID = (state: Context['state'], order: number) => {
-  order--
+  order--;
 
   if (!state.folders[order]) {
-    return 0
+    return 0;
   }
 
-  return state.folders[order].id
-}
+  return state.folders[order].id;
+};
 
 export const toggleFolder = (
   state: Context['state'],
   actions: Context['actions'],
   id: number
 ) => {
-  const selectedFolder = id === state.folder ? 0 : id
+  const selectedFolder = id === state.folder ? 0 : id;
 
-  actions.setFolder(selectedFolder)
+  actions.setFolder(selectedFolder);
 
   if ('number' === typeof state.settings.per_page) {
-    paginateGists(state.settings.per_page, state, actions)
+    paginateGists(state.settings.per_page, state, actions);
   }
-}
+};
 
 export const clearFoldersCache = (
   state: Context['state'],
   actions: Context['actions']
 ) => {
-  const gists = state.gists.filtered.map((gist) => gist.id)
-  const folders = state.folders
-  const filtered: Folder[] = []
-  let saveNeeded = false
+  const gists = state.gists.filtered.map((gist) => gist.id);
+  const folders = state.folders;
+  const filtered: Folder[] = [];
+  let saveNeeded = false;
 
   folders.map((folder) => {
-    const filteredFolder = { ...folder }
+    const filteredFolder = { ...folder };
 
     filteredFolder.gists = filteredFolder.gists.filter((id) =>
       gists.includes(id)
-    )
+    );
 
-    filtered.push(filteredFolder)
+    filtered.push(filteredFolder);
 
     if (filteredFolder.gists.length !== folder.gists.length) {
-      saveNeeded = true
+      saveNeeded = true;
     }
-  })
+  });
 
   if (saveNeeded) {
-    actions.setFolders(filtered)
-    save(state)
+    actions.setFolders(filtered);
+    save(state);
   }
-}
+};
 
 export const saveCache = (state: Context['state']) => {
   const token = document
     .querySelector('meta[name="csrf-token"]')
-    ?.getAttribute('content')
+    ?.getAttribute('content');
 
   if (!token) {
-    return
+    return;
   }
 
   const data = {
     cache: state.gists.source,
-  }
+  };
 
-  const requestHeaders: HeadersInit = new Headers()
+  const requestHeaders: HeadersInit = new Headers();
 
-  requestHeaders.set('X-CSRF-TOKEN', token)
-  requestHeaders.set('Content-Type', 'application/json')
+  requestHeaders.set('X-CSRF-TOKEN', token);
+  requestHeaders.set('Content-Type', 'application/json');
 
   fetch('cache', {
     method: 'POST',
     headers: requestHeaders,
     body: JSON.stringify(data),
-  })
-}
+  });
+};
 
 export const save = (state: Context['state']) => {
   const token = document
     .querySelector('meta[name="csrf-token"]')
-    ?.getAttribute('content')
+    ?.getAttribute('content');
 
   if (!token) {
-    return
+    return;
   }
 
   const data = {
@@ -245,37 +245,37 @@ export const save = (state: Context['state']) => {
       settings: state.settings,
       folders: state.folders,
     },
-  }
+  };
 
-  const requestHeaders: HeadersInit = new Headers()
+  const requestHeaders: HeadersInit = new Headers();
 
-  requestHeaders.set('X-CSRF-TOKEN', token)
-  requestHeaders.set('Content-Type', 'application/json')
+  requestHeaders.set('X-CSRF-TOKEN', token);
+  requestHeaders.set('Content-Type', 'application/json');
 
   fetch('userdata', {
     method: 'POST',
     headers: requestHeaders,
     body: JSON.stringify(data),
-  })
-}
+  });
+};
 
 export const deleteUser = () => {
   const token = document
     .querySelector('meta[name="csrf-token"]')
-    ?.getAttribute('content')
+    ?.getAttribute('content');
 
   if (!token) {
-    return
+    return;
   }
 
-  const requestHeaders: HeadersInit = new Headers()
+  const requestHeaders: HeadersInit = new Headers();
 
-  requestHeaders.set('X-CSRF-TOKEN', token)
+  requestHeaders.set('X-CSRF-TOKEN', token);
 
   fetch('userdata', {
     method: 'DELETE',
     headers: requestHeaders,
   }).then(() => {
-    location.reload()
-  })
-}
+    location.reload();
+  });
+};

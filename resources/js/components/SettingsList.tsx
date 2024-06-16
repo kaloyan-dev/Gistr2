@@ -1,28 +1,28 @@
-import React, { FC } from 'react'
-import { useAppState, useActions } from '../overmind'
+import React, { FC } from 'react';
+import { useAppState, useActions } from '../overmind';
 
-import { getSettingsMap, paginateGists, save } from '../helpers/utils'
+import { getSettingsMap, paginateGists, save } from '../helpers/utils';
 
 const SettingsList: FC = () => {
-  const state = useAppState()
-  const actions = useActions()
+  const state = useAppState();
+  const actions = useActions();
 
-  const settingsMap = getSettingsMap()
+  const settingsMap = getSettingsMap();
 
   const updatePerPage = (per_page: number) => {
-    actions.updateSettings({ per_page: per_page })
+    actions.updateSettings({ per_page: per_page });
 
     if ('number' === typeof per_page) {
-      paginateGists(per_page, state, actions)
+      paginateGists(per_page, state, actions);
     }
 
-    save(state)
-  }
+    save(state);
+  };
 
   const toggleSetting = (setting: string) => {
-    actions.toggleSetting(setting)
-    save(state)
-  }
+    actions.toggleSetting(setting);
+    save(state);
+  };
 
   return (
     <div className="text-sm relative">
@@ -30,11 +30,11 @@ const SettingsList: FC = () => {
         {settingsMap.map((setting, id) => {
           const color = state.settings[setting.name]
             ? 'bg-blue-500'
-            : 'bg-gray-700'
+            : 'bg-gray-700';
           const left = state.settings[setting.name]
             ? 'left-[18px]'
-            : 'left-[2px]'
-          const transition = state.loaded ? 'transition-all' : ''
+            : 'left-[2px]';
+          const transition = state.loaded ? 'transition-all' : '';
 
           return (
             <li key={id} className="flex justify-between mt-2 first:mt-0">
@@ -62,16 +62,16 @@ const SettingsList: FC = () => {
                       <option key={id} value={option}>
                         {option}
                       </option>
-                    )
+                    );
                   })}
                 </select>
               )}
             </li>
-          )
+          );
         })}
       </ul>
     </div>
-  )
-}
+  );
+};
 
-export default SettingsList
+export default SettingsList;

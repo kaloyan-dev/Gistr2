@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gistr 2.0</title>
+    <title>Gistr 2.1</title>
     <meta name="name" content="{{ $user->name }}">
     <meta name="username" content="{{ $user->username }}">
     <meta name="avatar" content="{{ $user->avatar }}">

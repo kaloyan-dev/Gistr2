@@ -1,72 +1,104 @@
-import React, { useState, FC, useEffect, useRef } from 'react'
-import { useAppState, useActions } from '../overmind'
+import React, { useState, FC, useEffect, useRef } from 'react';
+import { useAppState, useActions } from '../overmind';
 
-import Icon from './Icon'
-import Loading from './Loading'
+import Icon from './Icon';
+import Loading from './Loading';
 
-import { useDebounce } from '../helpers/hooks'
-import { paginateGists } from '../helpers/utils'
+import { useDebounce } from '../helpers/hooks';
+import { paginateGists } from '../helpers/utils';
 
-const Filter: FC = () => {
-  const state = useAppState()
-  const { filter, settings } = state
-  const actions = useActions()
-  const fieldPadding = settings.compact_mode ? 'p-2' : 'p-4'
-  const iconMarginLeft = settings.compact_mode ? 'ml-2' : 'ml-4'
-  const iconMarginRight = settings.compact_mode ? 'mr-2' : 'mr-4'
+import { FilterProps } from '../types';
 
-  const [inputFilter, setInputFilter] = useState<string>('')
-  const debouncedFilter: string = useDebounce<string>(inputFilter, 200)
+const Filter: FC = ({ fetchGists }: FilterProps) => {
+  const state = useAppState();
+  const { filter, settings } = state;
+  const actions = useActions();
+  const fieldPadding = settings.compact_mode ? 'p-2' : 'p-4';
+  const iconMarginLeft = settings.compact_mode ? 'ml-2' : 'ml-4';
+  const iconMarginRight = settings.compact_mode ? 'mr-2' : 'mr-4';
 
-  const inputRef = useRef<HTMLInputElement>(null)
+  const [inputFilter, setInputFilter] = useState<string>('');
+  const debouncedFilter: string = useDebounce<string>(inputFilter, 200);
+
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    const filterTerm = inputFilter.trim()
+    const filterTerm = inputFilter.trim();
 
     if (filterTerm === filter) {
-      return
+      return;
     }
 
-    actions.setFilter(filterTerm)
+    actions.setFilter(filterTerm);
 
     if ('number' === typeof settings.per_page) {
-      paginateGists(settings.per_page, state, actions)
+      paginateGists(settings.per_page, state, actions);
     }
-  }, [debouncedFilter])
+  }, [debouncedFilter]);
 
   return (
-    <div className="bg-white border-b shadow relative">
+    <div className="flex justify-center items-center relative">
       <Loading />
-      <form method="get" className="flex items-center text-gray-400">
-        <Icon
-          type="filter"
-          classes={`${iconMarginLeft} w-6 h-6 transition-all`}
-        />
-        <input
-          id="filter"
-          type="text"
-          placeholder="Filter by name"
-          className={`${fieldPadding} text-gray-600 outline-none w-full transition-all`}
-          onChange={(event) => setInputFilter(event.target.value)}
-          onFocus={() => actions.setFilterFocus(true)}
-          onBlur={() => actions.setFilterFocus(false)}
-          ref={inputRef}
-        />
-        {filter !== '' && (
-          <span
-            className={`${iconMarginRight} transition-all hover:text-gray-700`}
-            onClick={() => {
-              setInputFilter('')
-              inputRef.current.value = ''
-              inputRef.current.focus()
-            }}
-          >
-            <Icon type="cancel" classes="w-6 h-6" />
-          </span>
-        )}
-      </form>
-    </div>
-  )
-}
+      <div className="flex-1 bg-white border-b shadow">
+        <form method="get" className="flex items-center text-gray-400">
+          <Icon
+            type="filter"
+            classes={`${iconMarginLeft} w-6 h-6 transition-all`}
+          />
+          <input
+            id="filter"
+            type="text"
+            placeholder="Filter by name"
+            className={`${fieldPadding} text-gray-600 outline-none w-full transition-all`}
+            onChange={(event) => setInputFilter(event.target.value)}
+            onFocus={() => actions.setFilterFocus(true)}
+            onBlur={() => actions.setFilterFocus(false)}
+            ref={inputRef}
+          />
+          {filter !== '' && (
+            <span
+              className={`${iconMarginRight} transition-colors hover:text-gray-700`}
+              onClick={() => {
+                setInputFilter('');
+                inputRef.current.value = '';
+                inputRef.current.focus();
+              }}
+            >
+              <Icon type="cancel" classes="w-6 h-6" />
+            </span>
+          )}
+        </form>
+      </div>
 
-export default Filter
+      {state.settings.use_cache && (
+        <button
+          className="flex justify-center items-center whitespace-nowrap ml-4 bg-white self-stretch px-4 shadow border-b text-gray-500 hover:text-gray-700 transition-all"
+          onClick={(event) => {
+            event.preventDefault();
+            actions.setSourceGists([]);
+            actions.setFilteredGists([]);
+            actions.setMaxPage(1);
+            actions.setLoaded(false);
+            fetchGists(1);
+          }}
+        >
+          <Icon
+            type="reload"
+            classes="size-5"
+            tooltip="Fetch Gists &amp; Regenerate Cache"
+          />
+        </button>
+      )}
+
+      <a
+        href="https://gist.github.com/"
+        target="_blank"
+        className="flex justify-center items-center whitespace-nowrap ml-4 bg-white self-stretch px-4 shadow border-b text-gray-500 hover:text-gray-700 transition-all"
+      >
+        <Icon type="plus" classes="size-5" tooltip="New Gist" />
+      </a>
+    </div>
+  );
+};
+
+export default Filter;

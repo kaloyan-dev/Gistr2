@@ -1,12 +1,12 @@
-import React, { FC } from 'react'
-import { useAppState } from '../overmind'
-import { name, username, avatar, anonymous } from '../helpers/userdata'
-import Loading from './Loading'
+import React, { FC } from 'react';
+import { useAppState } from '../overmind';
+import { name, username, avatar, anonymous } from '../helpers/userdata';
+import Loading from './Loading';
 
 const UserProfile: FC = () => {
-  const state = useAppState()
+  const state = useAppState();
   const placeholder =
-    'relative before:absolute before:top-1/2 before:left-1/2 before:-translate-x-2/4 before:-translate-y-2/4 before:w-1/2 before:h-2/5 before:rounded-md'
+    'relative before:absolute before:top-1/2 before:left-1/2 before:-translate-x-2/4 before:-translate-y-2/4 before:w-1/2 before:h-2/5 before:rounded-md';
 
   if (!state.loaded) {
     return (
@@ -19,7 +19,7 @@ const UserProfile: FC = () => {
         <p className={`${placeholder} before:bg-gray-300`}>-</p>
         <p className={`${placeholder} before:bg-red-300`}>-</p>
       </div>
-    )
+    );
   }
 
   return (
@@ -43,7 +43,7 @@ const UserProfile: FC = () => {
         Logout
       </a>
     </div>
-  )
-}
+  );
+};
 
-export default UserProfile
+export default UserProfile;

@@ -1,24 +1,24 @@
-import { Gist, Folder, Settings } from '../types'
+import { Gist, Folder, Settings } from '../types';
 
 type State = {
-  addFolder: boolean
-  editFolder: number
-  folder: number
-  folders: Folder[]
-  settings: Settings
-  settingsOpen: boolean
-  loaded: boolean
-  maxPage: number
-  viewPage: number
-  filter: string
-  filterFocus: boolean
-  selected: string[]
-  lastSelected: string
+  addFolder: boolean;
+  editFolder: number;
+  folder: number;
+  folders: Folder[];
+  settings: Settings;
+  settingsOpen: boolean;
+  loaded: boolean;
+  maxPage: number;
+  viewPage: number;
+  filter: string;
+  filterFocus: boolean;
+  selected: string[];
+  lastSelected: string;
   gists: {
-    source: Gist[]
-    filtered: Gist[]
-  }
-}
+    source: Gist[];
+    filtered: Gist[];
+  };
+};
 
 export const state: State = {
   addFolder: false,
@@ -34,7 +34,7 @@ export const state: State = {
   ],
   settings: {
     inverted_colors: false,
-    compact_mode: false,
+    compact_mode: true,
     hide_user_info: false,
     pagination_top: false,
     sidebar_right: false,
@@ -60,4 +60,4 @@ export const state: State = {
     source: [],
     filtered: [],
   },
-}
+};
