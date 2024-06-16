@@ -2,14 +2,24 @@ import React, { FC } from 'react';
 
 import { IconProps } from '../types';
 
-const Icon: FC<IconProps> = ({ type, classes, tooltip }) => {
+const Icon: FC<IconProps> = ({
+  type,
+  classes,
+  wrapperClasses,
+  tooltip,
+  tooltipBottom,
+}) => {
   const getTooltip = () => {
     if (!tooltip) {
       return null;
     }
 
+    const tooltipClasses = tooltipBottom ? 'top-full' : 'bottom-full';
+
     return (
-      <span className="absolute left-1/2 bottom-full tranform -translate-x-1/2 text-white bg-gray-700 text-xs whitespace-nowrap py-1 px-2 rounded-sm pointer-events-none opacity-0 group-hover:opacity-100">
+      <span
+        className={`${tooltipClasses} absolute left-1/2 -translate-x-1/2 text-white bg-gray-700 text-xs whitespace-nowrap py-1 px-2 rounded-sm pointer-events-none opacity-0 group-hover:opacity-100`}
+      >
         {tooltip}
       </span>
     );
@@ -465,7 +475,7 @@ const Icon: FC<IconProps> = ({ type, classes, tooltip }) => {
   };
 
   return (
-    <div className="cursor-pointer relative group">
+    <div className={`${wrapperClasses} cursor-pointer relative group`}>
       {getTooltip()}
       {getIcon()}
     </div>

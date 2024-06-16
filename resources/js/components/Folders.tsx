@@ -136,7 +136,10 @@ const Folders: FC = () => {
       <ul className={`${bgClass} py-3 my-3 text-sm leading-[24px]`}>
         {state.folders.map((folder, index) => {
           const margin = 1 === folder.id ? 'mb-6' : 'mb-2';
-          const active = folder.id === state.folder ? 'font-bold' : '';
+          const active =
+            folder.id === state.folder
+              ? 'font-bold bg-blue-50 -mx-2 px-2 shadow'
+              : '';
           const folderColor = colorMap[folder.color][0];
 
           let icon = 1 === folder.id ? 'star' : 'folder';
@@ -164,15 +167,13 @@ const Folders: FC = () => {
 
           return (
             <li
-              className={margin}
+              className={`${active} ${margin} hover:bg-blue-50 hover:-mx-2 hover:px-2 hover:shadow`}
               key={index}
               onClick={() => handleFolder(folder)}
             >
               <div className={`${folderColor} flex cursor-pointer`}>
                 <Icon type={icon} classes="w-6 h-6" />
-                <span
-                  className={`${active} mx-2 justify-between whitespace-nowrap w-full overflow-hidden overflow-ellipsis`}
-                >
+                <span className="mx-2 justify-between whitespace-nowrap w-full overflow-hidden overflow-ellipsis">
                   {folder.title}
                 </span>
                 <span className="text-xs leading-[24px]">

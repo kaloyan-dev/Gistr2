@@ -37,7 +37,7 @@ const Filter: FC = ({ fetchGists }: FilterProps) => {
   }, [debouncedFilter]);
 
   return (
-    <div className="flex justify-center items-center relative">
+    <div className="flex justify-center items-center relative hover:z-10">
       <Loading />
       <div className="flex-1 bg-white border-b shadow">
         <form method="get" className="flex items-center text-gray-400">
@@ -72,7 +72,7 @@ const Filter: FC = ({ fetchGists }: FilterProps) => {
 
       {state.settings.use_cache && (
         <button
-          className="flex justify-center items-center whitespace-nowrap ml-4 bg-white self-stretch px-4 shadow border-b text-gray-500 hover:text-gray-700 transition-all"
+          className="flex justify-center items-center whitespace-nowrap ml-4 bg-white self-stretch shadow border-b text-gray-500 hover:text-gray-700 transition-all"
           onClick={(event) => {
             event.preventDefault();
             actions.setSourceGists([]);
@@ -85,7 +85,9 @@ const Filter: FC = ({ fetchGists }: FilterProps) => {
           <Icon
             type="reload"
             classes="size-5"
+            wrapperClasses="px-4 self-stretch flex items-center justify-center"
             tooltip="Fetch Gists &amp; Regenerate Cache"
+            tooltipBottom={true}
           />
         </button>
       )}
@@ -93,9 +95,15 @@ const Filter: FC = ({ fetchGists }: FilterProps) => {
       <a
         href="https://gist.github.com/"
         target="_blank"
-        className="flex justify-center items-center whitespace-nowrap ml-4 bg-white self-stretch px-4 shadow border-b text-gray-500 hover:text-gray-700 transition-all"
+        className="flex justify-center items-center whitespace-nowrap ml-4 bg-white self-stretch shadow border-b text-gray-500 hover:text-gray-700 transition-all"
       >
-        <Icon type="plus" classes="size-5" tooltip="New Gist" />
+        <Icon
+          type="plus"
+          classes="size-5"
+          wrapperClasses="px-4 self-stretch flex items-center justify-center"
+          tooltip="New Gist"
+          tooltipBottom={true}
+        />
       </a>
     </div>
   );
