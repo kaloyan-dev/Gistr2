@@ -19,7 +19,7 @@ const Pagination: FC = () => {
     ? 'border-b-2'
     : 'border-t-2';
   const prevPage = viewPage - 1 > 0 ? viewPage - 1 : maxPage;
-  const nextPage = viewPage + 1 < maxPage ? viewPage + 1 : 1;
+  const nextPage = viewPage + 1 <= maxPage ? viewPage + 1 : 1;
 
   return (
     <div className="relative mt-4 w-full">
