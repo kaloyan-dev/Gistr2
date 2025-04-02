@@ -243,7 +243,7 @@ const App: FC = () => {
         <div className="p-4">
           {!state.settings.sidebar_hidden && (
             <div
-              className={`w-[260px] bottom-0 bg-white p-6 hidden md:block fixed top-0 ${sidebarClass}`}
+              className={`w-[260px] bottom-0 bg-white p-6 hidden md:block fixed top-0 shadow ${sidebarClass}`}
             >
               <Loading />
               <UserProfile />
