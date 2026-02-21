@@ -2,10 +2,12 @@ import React, { FC } from 'react';
 
 import { IconProps } from '../types';
 
+import { concatClasses } from '../helpers/utils';
+
 const Icon: FC<IconProps> = ({
   type,
   classes,
-  wrapperClasses,
+  wrapperClasses = '',
   tooltip,
   tooltipBottom,
 }) => {
@@ -18,7 +20,10 @@ const Icon: FC<IconProps> = ({
 
     return (
       <span
-        className={`${tooltipClasses} absolute left-1/2 -translate-x-1/2 text-white bg-gray-700 text-xs whitespace-nowrap py-1 px-2 rounded-sm pointer-events-none opacity-0 group-hover:opacity-100`}
+        className={concatClasses([
+          tooltipClasses,
+          'absolute left-1/2 -translate-x-1/2 text-white bg-gray-700 text-xs whitespace-nowrap py-1 px-2 rounded-sm pointer-events-none opacity-0 group-hover:opacity-100',
+        ])}
       >
         {tooltip}
       </span>
@@ -475,7 +480,12 @@ const Icon: FC<IconProps> = ({
   };
 
   return (
-    <div className={`${wrapperClasses} cursor-pointer relative group`}>
+    <div
+      className={concatClasses([
+        wrapperClasses,
+        'cursor-pointer relative group',
+      ])}
+    >
       {getTooltip()}
       {getIcon()}
     </div>

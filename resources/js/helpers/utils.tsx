@@ -279,3 +279,7 @@ export const deleteUser = () => {
     location.reload();
   });
 };
+
+export const concatClasses = (classes: string[] = []) => {
+  return classes.filter((cls) => cls && cls.trim() !== '').join(' ');
+};
